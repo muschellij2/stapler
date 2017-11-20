@@ -1,0 +1,22 @@
+Package: stapler
+Version: 0.1.0
+Title: Simultaneous Truth and Performance Level Estimation '(STAPLE)'
+Description: An implementation of Simultaneous Truth and Performance Level Estimation '(STAPLE)', where there are multiple raters for an object.
+Authors@R: structure(list(structure(list(given = "John", family = "Muschelli", 
+        role = c("aut", "cre"), email = "muschellij2@gmail.com", 
+        comment = NULL), .Names = c("given", "family", "role", "email", 
+    "comment"))), class = "person")
+License: GPL-3
+Suggests: 
+    knitr,
+    rmarkdown,
+    covr,
+    testthat
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Type: Package
+Maintainer: John Muschelli <muschellij2@gmail.com>
+VignetteBuilder: knitr
+URL: https://github.com/muschellij2/stapler
+BugReports: https://github.com/muschellij2/stapler/issues
