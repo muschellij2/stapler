@@ -2,9 +2,12 @@
 % Please edit documentation in R/staple_binimg.R
 \name{staple_bin_img}
 \alias{staple_bin_img}
+\alias{staple_multi_img}
 \title{Run STAPLE on a set of nifti images}
 \usage{
 staple_bin_img(x, set_origin = FALSE, ...)
+
+staple_multi_img(x, set_origin = FALSE, ...)
 }
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}

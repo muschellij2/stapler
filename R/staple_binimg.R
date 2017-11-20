@@ -106,3 +106,35 @@ staple_bin_img = function(
   return(res)
 
 }
+
+#' @export
+#' @rdname staple_bin_img
+staple_multi_img = function(
+  x,
+  set_origin = FALSE,
+  ...) {
+
+  x = reshape_img(x = x, set_origin = set_origin)
+  first_image = x$first_image
+  x = x$x
+  res = staple_multi_mat(x, ...)
+
+  prob = res$probability
+  n_level = ncol(prob)
+  outimg = lapply(seq(n_level), function(ind) {
+    probability = prob[, ind]
+    outimg = array(
+      probability,
+      dim = dim(first_image))
+
+    hdr = RNifti::dumpNifti(first_image)
+    hdr$cal_max = 1
+    hdr$cal_min = 0
+    hdr$datatype = 16
+
+    outimg = RNifti::updateNifti(
+      outimg, template = hdr)
+  })
+  res$outimg = outimg
+  return(res)
+}
