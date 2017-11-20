@@ -206,6 +206,7 @@ staple_multi_mat = function(
   colnames(W_i) = umat
   stopifnot(!any(is.na(W_i)))
 
+  ties.method = match.arg(ties.method)
   label = umat[max.col(W_i, ties.method = ties.method)]
   # outimg = rep(0, n_all_voxels)
   # outimg[ all_one ] = 1

@@ -96,8 +96,6 @@ staple_bin_img = function(
 
 #' @export
 #' @rdname staple_bin_img
-#' @param ties.method Method passed to \code{\link{max.col}}
-#' for hard segmentation
 #' @examples
 #' n = 5
 #' r = 1000
@@ -109,8 +107,7 @@ staple_bin_img = function(
 staple_multi_img = function(
   x,
   set_origin = FALSE,
-  ...,
-  ties.method = c("first", "random", "last")) {
+  ...) {
 
   x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image

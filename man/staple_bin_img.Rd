@@ -7,8 +7,7 @@
 \usage{
 staple_bin_img(x, set_origin = FALSE, ...)
 
-staple_multi_img(x, set_origin = FALSE, ..., ties.method = c("first",
-  "random", "last"))
+staple_multi_img(x, set_origin = FALSE, ...)
 }
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}
@@ -17,9 +16,6 @@ staple_multi_img(x, set_origin = FALSE, ..., ties.method = c("first",
 \code{niftiImage}s}
 
 \item{...}{Additional arguments to \code{\link{staple_bin_mat}}}
-
-\item{ties.method}{Method passed to \code{\link{max.col}}
-for hard segmentation}
 }
 \value{
 A list similar to \code{\link{staple_bin_mat}}, but
