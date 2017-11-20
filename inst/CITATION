@@ -1,0 +1,13 @@
+structure(list(warfield2004simultaneous = structure(
+  list(title = "Simultaneous truth and performance level estimation (STAPLE): an algorithm for the validation of image segmentation",
+       author = structure(list(structure(list(given = c("Simon",
+                                                        "K"), family = "Warfield", role = NULL, email = NULL, comment = NULL), .Names = c("given",
+                                                                                                                                          "family", "role", "email", "comment")), structure(list(given = c("Kelly",
+                                                                                                                                                                                                           "H"), family = "Zou", role = NULL, email = NULL, comment = NULL), .Names = c("given",
+                                                                                                                                                                                                                                                                                        "family", "role", "email", "comment")), structure(list(given = c("William",
+                                                                                                                                                                                                                                                                                                                                                         "M"), family = "Wells", role = NULL, email = NULL, comment = NULL), .Names = c("given",
+                                                                                                                                                                                                                                                                                                                                                                                                                                        "family", "role", "email", "comment"))), class = "person"),
+       journal = "IEEE transactions on medical imaging", volume = "23",
+       number = "7", pages = "903--921", year = "2004", publisher = "IEEE"), .Names = c("title",
+                                                                                        "author", "journal", "volume", "number", "pages", "year", "publisher"
+       ), bibtype = "Article", key = "warfield2004simultaneous")), class = "bibentry", strings = structure(character(0), .Names = character(0)), .Names = "warfield2004simultaneous")
