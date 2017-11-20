@@ -10,17 +10,17 @@ test_that("Staple binary matrix", {
   pred_1 = rbinom(n = n, size = n_1, prob = sens)
   pred_0 = rbinom(n = n, size = n_0, prob = spec)
   pred_0 = sapply(pred_0, function(n) {
-     sample(c(rep(0, n), rep(1, n_0 -n)))
+     sample(c(rep(0, n), rep(1, n_0 - n)))
   })
   pred_1 = sapply(pred_1, function(n) {
-     sample(c(rep(1, n), rep(0, n_1 -n)))
+     sample(c(rep(1, n), rep(0, n_1 - n)))
   })
   pred = rbind(pred_0, pred_1)
   true_sens = colMeans(pred[ truth == 1, ])
-  true_spec = colMeans(1-pred[ truth == 0, ])
+  true_spec = colMeans(1 - pred[ truth == 0, ])
   x = t(pred)
 
-  expect_message(staple_binmat(x))
-  expect_silent(staple_binmat(x, prior = rep(0.5, r), verbose = FALSE))
+  expect_message(staple_bin_mat(x))
+  expect_silent(staple_bin_mat(x, prior = rep(0.5, r), verbose = FALSE))
 
 })

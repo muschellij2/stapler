@@ -5,32 +5,6 @@ rm(list=ls())
 library(matrixStats)
 library(RNifti)
 
-ensure_Nifti = function(x) {
-	if (is.list(x)) {
-		x = lapply(x, ensure_Nifti)
-	}
-	if (is.character(x)) {
-		if (length(x) > 0) {
-			x = lapply(x, readNifti)
-		} else {
-			x = readNifti(x)
-		}
-	}
-	x
-}
-
-files = list.files(
-	pattern = "Manual.*.nii.gz")
-# imgs = check_nifti(files)
-imgs = ensure_Nifti(files)
-orientations = sapply(imgs, orientation)
-ori = orientation(imgs[[1]])
-
-imgs = lapply(imgs,
-	function(x) {
-		orientation(x) = ori
-		x
-	})
 
 orig = t(sapply(imgs, c))
 
@@ -65,7 +39,7 @@ tol = .Machine$double.eps
 # mat is D
 ### run E Step
 for (i in seq(max_iter)) {
-	pmat = p * mat 
+	pmat = p * mat
 	pmat = colProds(pmat, na.rm = TRUE)
 	sep_pmat = (1-p) * dmat
 	sep_pmat = colProds(sep_pmat, na.rm = TRUE)
@@ -97,19 +71,19 @@ for (i in seq(max_iter)) {
 		print("Convergence!")
 		break
 	} else {
-		print(paste0("iter: ", i, 
+		print(paste0("iter: ", i,
 			", diff: ", diff))
 	}
 
 	p = new_p
-	q = new_q 
+	q = new_q
 }
 
 stopifnot(!any(is.na(W_i)))
 
 outimg = rep(0, ncol(orig))
 outimg[keep > 0] = W_i
-outimg = array(outimg, 
+outimg = array(outimg,
 	dim = dim(imgs[[1]]))
 
 hdr = RNifti::dumpNifti(imgs[[1]])

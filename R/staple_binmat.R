@@ -7,6 +7,7 @@
 #' @param tol Tolerance for convergence
 #' @param prior Either "mean" or a vector of prior probabilities,
 #' @param verbose print diagnostic messages
+#' @param trace Number for modulus to print out verbose iterations
 #'
 #' @return List of output sensitivities, specificities, and
 #' vector of probabilities
@@ -33,18 +34,19 @@
 #' true_sens = colMeans(pred[ truth == 1, ])
 #' true_spec = colMeans(1-pred[ truth == 0, ])
 #' x = t(pred)
-#' staple_out = staple_binmat(x)
-#' staple_out_prior = staple_binmat(x, prior = rep(0.5, r))
+#' staple_out = staple_bin_mat(x)
+#' staple_out_prior = staple_bin_mat(x, prior = rep(0.5, r))
 #'
 #' @importFrom matrixStats colProds
-staple_binmat = function(
+staple_bin_mat = function(
   x,
   sens_init = 0.99999,
   spec_init = 0.99999,
-  max_iter = 1000,
+  max_iter = 10000,
   tol = .Machine$double.eps,
   prior = "mean",
-  verbose = TRUE
+  verbose = TRUE,
+  trace = 25
 ) {
   n_readers = nrow(x)
   n_all_voxels = ncol(x)
@@ -57,7 +59,7 @@ staple_binmat = function(
   }
 
   stopifnot(!any(is.na(x)))
-  umat = unique(c(x))
+  umat = sort(unique(c(x)))
   umat = as.numeric(umat)
   if (!all(umat %in% c(0, 1))) {
     warning(paste0("Staple expecting binary matrix ",
@@ -65,8 +67,10 @@ staple_binmat = function(
   }
   x = x > 0
 
+
   cs = colSums(x)
   all_zero = cs == 0
+  # only_one = cs == 1
   # if all vote yes - then yes
   all_one = cs == n_readers
   keep = !all_zero & !all_one
@@ -104,7 +108,8 @@ staple_binmat = function(
   }
 
   n_voxels = ncol(mat)
-  dmat = 1 - mat
+  dmat = 1L - mat
+  class(dmat) = "logical"
 
   # doing this for na.rm arguments
   mat[ mat == 0] = NA
@@ -116,6 +121,7 @@ staple_binmat = function(
   q = rep(spec_init, n_readers)
 
 
+  eps = tol^2
 
   # mat is D
   ### run E Step
@@ -134,16 +140,21 @@ staple_binmat = function(
     b_i = (1 - f_t_i) * qmat * sep_qmat
     W_i = a_i/(a_i + b_i)
 
+    ##########################
+    # do these make sense to do?
+    ##########################
+    # W_i = pmin(W_i, 1 - eps)
+    # W_i = pmax(W_i, eps)
 
     sum_w = sum(W_i)
 
     new_p  = t(mat) * W_i
     new_p  = colSums(new_p,	na.rm = TRUE)
-    new_p = new_p/sum_w
+    new_p = new_p/(sum_w + eps)
 
     new_q  = t(dmat) * (1 - W_i)
     new_q  = colSums(new_q,	na.rm = TRUE)
-    new_q = new_q/(n_voxels - sum_w)
+    new_q = new_q/(n_voxels - sum_w + eps)
 
     diff_p = abs(p - new_p)
     diff_q = abs(q - new_q)
@@ -155,7 +166,7 @@ staple_binmat = function(
       break
     } else {
       if (verbose) {
-        if (iiter %% 100 == 0) {
+        if (iiter %% trace == 0) {
           message(paste0("iter: ", iiter,
                    ", diff: ", diff))
         }
