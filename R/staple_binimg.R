@@ -37,11 +37,12 @@ reshape_img = function(x, set_origin = TRUE) {
   x = t(sapply(x, c))
   L = list(x = x,
            first_image = first_image)
+  return(L)
 }
 
 #' Run STAPLE on a set of nifti images
 #'
-#' @param imgs Character vector of filenames or l
+#' @param x Character vector of filenames or list of arrays/images
 #' @param set_origin Should the origin be set to the same if they images are
 #' \code{niftiImage}s
 #' @param ... Additional arguments to \code{\link{staple_bin_mat}}
@@ -75,7 +76,7 @@ reshape_img = function(x, set_origin = TRUE) {
 #' x = lapply(seq(n), function(x) {
 #'    array(pred[, x], dim = c(10,10, 10))
 #'  })
-#' staple_out = staple_bin_img(x)
+#' staple_out = staple_bin_img(x, set_origin = FALSE)
 #'
 #' @importFrom RNifti readNifti dumpNifti updateNifti orientation
 #' @importFrom RNifti "orientation<-"
@@ -84,7 +85,7 @@ staple_bin_img = function(
   set_origin = FALSE,
   ...) {
 
-  x = reshape_img(x = x, set_origin = TRUE)
+  x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image
   x = x$x
   res = staple_bin_mat(x, ...)
