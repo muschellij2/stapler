@@ -11,23 +11,23 @@ staple_multi_mat(x, sens_init = 0.99999, spec_init = 0.99999,
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated}
 
-\item{sens_init}{Initalize parameter for sensitivity (p)}
+\item{sens_init}{Initalize matrix for sensitivity (p)}
 
-\item{spec_init}{Initalize parameter for specificity (q)}
+\item{spec_init}{Initalize matrix for specificity (q)}
 
 \item{max_iter}{Maximum number of iterations to run}
 
 \item{tol}{Tolerance for convergence}
 
-\item{prior}{Either "mean" or a vector of prior probabilities,}
+\item{prior}{Either "mean" or a matrix of prior probabilities,}
 
 \item{verbose}{print diagnostic messages}
 
 \item{trace}{Number for modulus to print out verbose iterations}
 }
 \value{
-List of output sensitivities, specificities, and
-vector of probabilities
+List of matrix output sensitivities, specificities, and
+matrix of probabilities
 }
 \description{
 STAPLE on Multi-class matrix
@@ -35,5 +35,5 @@ STAPLE on Multi-class matrix
 \examples{
 rm(list = ls())
 x = matrix(rbinom(5000, size = 5, prob = 0.5), ncol = 1000)
-
+res = staple_multi_mat(x)
 }

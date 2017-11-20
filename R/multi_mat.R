@@ -1,22 +1,22 @@
 #' STAPLE on Multi-class matrix
 #'
 #' @param x a nxr matrix where there are n raters and r elements rated
-#' @param sens_init Initalize parameter for sensitivity (p)
-#' @param spec_init  Initalize parameter for specificity (q)
+#' @param sens_init Initalize matrix for sensitivity (p)
+#' @param spec_init  Initalize matrix for specificity (q)
 #' @param max_iter Maximum number of iterations to run
 #' @param tol Tolerance for convergence
-#' @param prior Either "mean" or a vector of prior probabilities,
+#' @param prior Either "mean" or a matrix of prior probabilities,
 #' @param verbose print diagnostic messages
 #' @param trace Number for modulus to print out verbose iterations
 #'
-#' @return List of output sensitivities, specificities, and
-#' vector of probabilities
+#' @return List of matrix output sensitivities, specificities, and
+#' matrix of probabilities
 #' @export
 #'
 #' @examples
 #' rm(list = ls())
 #' x = matrix(rbinom(5000, size = 5, prob = 0.5), ncol = 1000)
-#'
+#' res = staple_multi_mat(x)
 #' @importFrom matrixStats colProds
 staple_multi_mat = function(
   x,

@@ -121,7 +121,7 @@ staple_bin_mat = function(
   q = rep(spec_init, n_readers)
 
 
-  eps = tol^2
+  eps = sqrt(tol)
 
   # mat is D
   ### run E Step
