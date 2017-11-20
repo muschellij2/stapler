@@ -8,6 +8,8 @@
 #' @param prior Either "mean" or a matrix of prior probabilities,
 #' @param verbose print diagnostic messages
 #' @param trace Number for modulus to print out verbose iterations
+#' @param ties.method Method passed to \code{\link{max.col}}
+#' for hard segmentation
 #'
 #' @return List of matrix output sensitivities, specificities, and
 #' matrix of probabilities
@@ -26,7 +28,8 @@ staple_multi_mat = function(
   tol = .Machine$double.eps,
   prior = "mean",
   verbose = TRUE,
-  trace = 25
+  trace = 25,
+  ties.method = c("first", "random", "last")
 ){
 
   n_readers = nrow(x)
@@ -203,7 +206,7 @@ staple_multi_mat = function(
   colnames(W_i) = umat
   stopifnot(!any(is.na(W_i)))
 
-
+  label = umat[max.col(W_i, ties.method = ties.method)]
   # outimg = rep(0, n_all_voxels)
   # outimg[ all_one ] = 1
   # outimg[keep] = W_i
@@ -212,6 +215,7 @@ staple_multi_mat = function(
     sensitivity = p,
     specificity = q,
     probability = W_i,
+    label = label,
     prior = prior,
     number_iterations = iiter,
     convergence_threshold = tol,

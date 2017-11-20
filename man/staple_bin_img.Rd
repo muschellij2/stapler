@@ -7,7 +7,8 @@
 \usage{
 staple_bin_img(x, set_origin = FALSE, ...)
 
-staple_multi_img(x, set_origin = FALSE, ...)
+staple_multi_img(x, set_origin = FALSE, ..., ties.method = c("first",
+  "random", "last"))
 }
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}
@@ -16,6 +17,9 @@ staple_multi_img(x, set_origin = FALSE, ...)
 \code{niftiImage}s}
 
 \item{...}{Additional arguments to \code{\link{staple_bin_mat}}}
+
+\item{ties.method}{Method passed to \code{\link{max.col}}
+for hard segmentation}
 }
 \value{
 A list similar to \code{\link{staple_bin_mat}}, but
@@ -28,26 +32,17 @@ Run STAPLE on a set of nifti images
 
 n = 5
 r = 1000
-sens = c(0.8, 0.9, 0.8, 0.5, 0.8)
-spec = c(0.9, 0.75, 0.99, 0.98, 0.92)
-set.seed(20171120)
-n_1 = 200
-n_0 = r - n_1
-truth = c(rep(0, n_0), rep(1, n_1))
-pred_1 = rbinom(n = n, size = n_1, prob = sens)
-pred_0 = rbinom(n = n, size = n_0, prob = spec)
-pred_0 = sapply(pred_0, function(n) {
-   sample(c(rep(0, n), rep(1, n_0 -n)))
-})
-pred_1 = sapply(pred_1, function(n) {
-   sample(c(rep(1, n), rep(0, n_1 -n)))
-})
-pred = rbind(pred_0, pred_1)
-true_sens = colMeans(pred[ truth == 1, ])
-true_spec = colMeans(1-pred[ truth == 0, ])
-x = lapply(seq(n), function(x) {
-   array(pred[, x], dim = c(10,10, 10))
+x = lapply(seq(n), function(i) {
+   x = rbinom(n = r, size = 1, prob = 0.5)
+   array(x, dim = c(10,10, 10))
  })
 staple_out = staple_bin_img(x, set_origin = FALSE)
 
+n = 5
+r = 1000
+x = lapply(seq(n), function(i) {
+   x = rbinom(n = r, size = 5, prob = 0.5)
+   array(x, dim = c(10,10, 10))
+ })
+staple_out = staple_multi_img(x, set_origin = FALSE)
 }

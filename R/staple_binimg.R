@@ -56,25 +56,9 @@ reshape_img = function(x, set_origin = TRUE) {
 #' @examples
 #' n = 5
 #' r = 1000
-#' sens = c(0.8, 0.9, 0.8, 0.5, 0.8)
-#' spec = c(0.9, 0.75, 0.99, 0.98, 0.92)
-#' set.seed(20171120)
-#' n_1 = 200
-#' n_0 = r - n_1
-#' truth = c(rep(0, n_0), rep(1, n_1))
-#' pred_1 = rbinom(n = n, size = n_1, prob = sens)
-#' pred_0 = rbinom(n = n, size = n_0, prob = spec)
-#' pred_0 = sapply(pred_0, function(n) {
-#'    sample(c(rep(0, n), rep(1, n_0 -n)))
-#' })
-#' pred_1 = sapply(pred_1, function(n) {
-#'    sample(c(rep(1, n), rep(0, n_1 -n)))
-#' })
-#' pred = rbind(pred_0, pred_1)
-#' true_sens = colMeans(pred[ truth == 1, ])
-#' true_spec = colMeans(1-pred[ truth == 0, ])
-#' x = lapply(seq(n), function(x) {
-#'    array(pred[, x], dim = c(10,10, 10))
+#' x = lapply(seq(n), function(i) {
+#'    x = rbinom(n = r, size = 1, prob = 0.5)
+#'    array(x, dim = c(10,10, 10))
 #'  })
 #' staple_out = staple_bin_img(x, set_origin = FALSE)
 #'
@@ -102,17 +86,31 @@ staple_bin_img = function(
   outimg = RNifti::updateNifti(
     outimg, template = hdr)
 
-  res$outimg = outimg
+  label = outimg >= 0.5
+  res$probability = outimg
+  res$label = label
+
   return(res)
 
 }
 
 #' @export
 #' @rdname staple_bin_img
+#' @param ties.method Method passed to \code{\link{max.col}}
+#' for hard segmentation
+#' @examples
+#' n = 5
+#' r = 1000
+#' x = lapply(seq(n), function(i) {
+#'    x = rbinom(n = r, size = 5, prob = 0.5)
+#'    array(x, dim = c(10,10, 10))
+#'  })
+#' staple_out = staple_multi_img(x, set_origin = FALSE)
 staple_multi_img = function(
   x,
   set_origin = FALSE,
-  ...) {
+  ...,
+  ties.method = c("first", "random", "last")) {
 
   x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image
@@ -120,6 +118,12 @@ staple_multi_img = function(
   res = staple_multi_mat(x, ...)
 
   prob = res$probability
+
+  hdr = RNifti::dumpNifti(first_image)
+  hdr$cal_max = 1
+  hdr$cal_min = 0
+  hdr$datatype = 16
+
   n_level = ncol(prob)
   outimg = lapply(seq(n_level), function(ind) {
     probability = prob[, ind]
@@ -127,14 +131,18 @@ staple_multi_img = function(
       probability,
       dim = dim(first_image))
 
-    hdr = RNifti::dumpNifti(first_image)
-    hdr$cal_max = 1
-    hdr$cal_min = 0
-    hdr$datatype = 16
-
     outimg = RNifti::updateNifti(
       outimg, template = hdr)
   })
   res$outimg = outimg
+
+  label = array(
+    res$label,
+    dim = dim(first_image))
+  label = RNifti::updateNifti(
+    label, template = hdr)
+  res$label = label
+
   return(res)
 }
+

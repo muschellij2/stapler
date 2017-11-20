@@ -187,6 +187,7 @@ staple_bin_mat = function(
     sensitivity = p,
     specificity = q,
     probability = outimg,
+    label = outimg >= 0.5,
     prior = prior,
     number_iterations = iiter,
     convergence_threshold = tol,
