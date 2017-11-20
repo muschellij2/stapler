@@ -44,9 +44,9 @@ reshape_img = function(x, set_origin = TRUE) {
 #' @param imgs Character vector of filenames or l
 #' @param set_origin Should the origin be set to the same if they images are
 #' \code{niftiImage}s
-#' @param ... Additional arguments to \code{\link{staple_binmat}}
+#' @param ... Additional arguments to \code{\link{staple_bin_mat}}
 #'
-#' @return A list similar to \code{\link{staple_binmat}}, but
+#' @return A list similar to \code{\link{staple_bin_mat}}, but
 #' has a resulting image
 #' @export
 #'
@@ -78,6 +78,7 @@ reshape_img = function(x, set_origin = TRUE) {
 #' staple_out = staple_bin_img(x)
 #'
 #' @importFrom RNifti readNifti dumpNifti updateNifti orientation
+#' @importFrom RNifti "orientation<-"
 staple_bin_img = function(
   x,
   set_origin = FALSE,
@@ -86,7 +87,7 @@ staple_bin_img = function(
   x = reshape_img(x = x, set_origin = TRUE)
   first_image = x$first_image
   x = x$x
-  res = staple_binmat(x, ...)
+  res = staple_bin_mat(x, ...)
 
 
   outimg = array(res$probability,

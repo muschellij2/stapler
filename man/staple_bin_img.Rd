@@ -10,12 +10,12 @@ staple_bin_img(x, set_origin = FALSE, ...)
 \item{set_origin}{Should the origin be set to the same if they images are
 \code{niftiImage}s}
 
-\item{...}{Additional arguments to \code{\link{staple_binmat}}}
+\item{...}{Additional arguments to \code{\link{staple_bin_mat}}}
 
 \item{imgs}{Character vector of filenames or l}
 }
 \value{
-A list similar to \code{\link{staple_binmat}}, but
+A list similar to \code{\link{staple_bin_mat}}, but
 has a resulting image
 }
 \description{
