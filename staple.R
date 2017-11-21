@@ -1,10 +1,22 @@
 ##############################
 #
 ##############################
-rm(list=ls())
+rm(list = ls())
 library(matrixStats)
 library(RNifti)
 
+
+files = list.files(
+  path = "~/Desktop/staple/",
+  pattern = "Manual",
+  full.names = TRUE
+  )
+imgs = lapply(files, readNifti)
+imgs = lapply(imgs, function(x) {
+  x[ x > 0] = 1
+  x
+})
+staple = staple_bin_img(imgs, set_origin = TRUE)
 
 orig = t(sapply(imgs, c))
 

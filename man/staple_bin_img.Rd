@@ -5,7 +5,7 @@
 \alias{staple_multi_img}
 \title{Run STAPLE on a set of nifti images}
 \usage{
-staple_bin_img(x, set_origin = FALSE, ...)
+staple_bin_img(x, set_origin = FALSE, verbose = TRUE, ...)
 
 staple_multi_img(x, set_origin = FALSE, ...)
 }

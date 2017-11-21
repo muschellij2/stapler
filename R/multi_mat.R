@@ -18,8 +18,18 @@
 #' @examples
 #' rm(list = ls())
 #' x = matrix(rbinom(5000, size = 5, prob = 0.5), ncol = 1000)
+#'   sens_init = 0.99999
+#'   spec_init = 0.99999
+#'   max_iter = 10000
+#'   tol = .Machine$double.eps
+#'   prior = "mean"
+#'   verbose = TRUE
+#'   trace = 25
+#'   ties.method = "first"
+#'
 #' res = staple_multi_mat(x)
-#' @importFrom matrixStats colProds
+#'
+#' @importFrom matrixStats colProds colVars
 staple_multi_mat = function(
   x,
   sens_init = 0.99999,
@@ -46,22 +56,27 @@ staple_multi_mat = function(
   umat = sort(unique(c(x)))
   umat = as.numeric(umat)
   n_levels = length(umat)
+
+  if (verbose) {
+    message("Making multiple, matrices. Hot-one encode")
+  }
   xmats = lapply(umat, function(val) {
     x == val
   })
 
-  # keep = lapply(xmats, function(x) {
+  # not_all_same = lapply(xmats, function(x) {
   #   cs = colSums(x)
   #   all_zero = cs == 0
   #   # only_one = cs == 1
   #   # if all vote yes - then yes
   #   all_one = cs == n_readers
-  #   keep = !all_zero & !all_one
+  #   not_all_same = !all_zero & !all_one
   #
-  #   stopifnot(!any(is.na(keep)))
-  #   return(list(keep = keep, all_one = all_one))
+  #   stopifnot(!any(is.na(not_all_same)))
+  #   return(list(not_all_same = not_all_same, all_one = all_one))
   # })
-  # keep = Reduce("|", keep)
+  # not_all_same = Reduce("|", not_all_same)
+  not_all_same = matrixStats::colVars(x) > 0
 
   ####################################
   # Keeping only voxels with more than 1 says yes
@@ -87,30 +102,37 @@ staple_multi_mat = function(
     }
     # all_one = all_one | prior == 1
     # all_zero = all_zero | prior == 0
-    # keep = !all_zero & !all_one
-    # stopifnot(!any(is.na(keep)))
+    # not_all_same = !all_zero & !all_one
+    # stopifnot(!any(is.na(not_all_same)))
   }
-  # mats = lapply(xmats, function(r) r[, keep])
-  mats = xmats
-  # f_t_i = f_t_i[keep,]
+  if (verbose) {
+    message("Removing elements where all raters agree")
+  }
+  # mats = lapply(xmats, function(r) r[, not_all_same])
+  # mats = xmats
+  mats = lapply(xmats, function(r) r[, not_all_same])
+  f_t_i = f_t_i[not_all_same,]
+
+  d_f_t_i = 1 - f_t_i
 
 
-  # n_voxels = sum(keep)
+  # n_voxels = sum(not_all_same)
   n_voxels = ncol(mats[[1]])
   dmats = lapply(
     mats, function(mat) {
-      dmat = 1L - mat
-      class(dmat) = "logical"
-      dmat[dmat == 0] = NA
+      # dmat = (1L - mat) > 0
+      # class(dmat) = "logical"
+      # dmat[dmat == 0] = NA
+      dmat = !mat
       return(dmat)
     })
 
   # doing this for na.rm arguments
-  mats = lapply(
-    mats, function(mat) {
-      mat[ mat == 0] = NA
-      mat
-    })
+  # mats = lapply(
+  #   mats, function(mat) {
+  #     mat[ mat == 0] = NA
+  #     mat
+  #   })
 
   ###################
   #initialize
@@ -123,38 +145,54 @@ staple_multi_mat = function(
   # mat is D
   ### run E Step
   for (iiter in seq(max_iter)) {
-    pmat = sapply(seq(n_levels), function(ind) {
+    # pmat = sapply(seq(n_levels), function(ind) {
+    #   p = p[, ind]
+    #   mat = mats[[ind]]
+    #   pmat = p * mat
+    #   pmat = matrixStats::colProds(pmat, na.rm = TRUE)
+    # })
+    # sep_pmat = sapply(seq(n_levels), function(ind) {
+    #   p = p[, ind]
+    #   dmat = dmats[[ind]]
+    #   sep_pmat = (1 - p) * dmat
+    #   sep_pmat =  matrixStats::colProds(sep_pmat, na.rm = TRUE)
+    # })
+    #
+    # qmat = sapply(seq(n_levels), function(ind) {
+    #   q = q[, ind]
+    #   mat = mats[[ind]]
+    #   qmat = q * mat
+    #   qmat =  matrixStats::colProds(qmat, na.rm = TRUE)
+    # })
+    # sep_qmat = sapply(seq(n_levels), function(ind) {
+    #   q = q[, ind]
+    #   dmat = dmats[[ind]]
+    #   sep_qmat = (1 - q) * dmat
+    #   sep_qmat =  matrixStats::colProds(sep_qmat, na.rm = TRUE)
+    # })
+
+    W_i = sapply(seq(n_levels), function(ind) {
       p = p[, ind]
+      q = q[, ind]
+      ft = f_t_i[, ind]
+      dft = d_f_t_i[, ind]
+
       mat = mats[[ind]]
-      pmat = p * mat
-      pmat = matrixStats::colProds(pmat, na.rm = TRUE)
-    })
-    sep_pmat = sapply(seq(n_levels), function(ind) {
-      p = p[, ind]
       dmat = dmats[[ind]]
-      sep_pmat = (1 - p) * dmat
-      sep_pmat =  matrixStats::colProds(sep_pmat, na.rm = TRUE)
+
+      # E Step
+      a_i = p ^ mat * (1 - p) ^ dmat
+      a_i = ft * matrixStats::colProds(a_i)
+
+      b_i = q ^ dmat * (1 - q) ^ mat
+      b_i = dft * matrixStats::colProds(b_i)
+      W_i = a_i / (a_i + b_i)
+      W_i
     })
 
-    qmat = sapply(seq(n_levels), function(ind) {
-      q = q[, ind]
-      mat = mats[[ind]]
-      qmat = q * mat
-      qmat =  matrixStats::colProds(qmat, na.rm = TRUE)
-    })
-    sep_qmat = sapply(seq(n_levels), function(ind) {
-      q = q[, ind]
-      dmat = dmats[[ind]]
-      sep_qmat = (1 - q) * dmat
-      sep_qmat =  matrixStats::colProds(sep_qmat, na.rm = TRUE)
-    })
-
-    a_i = f_t_i * pmat * sep_pmat
-    b_i = (1 - f_t_i) * qmat * sep_qmat
-    W_i = a_i/(a_i + b_i)
     W_i = W_i / rowSums(W_i)
 
-    W_is = lapply(1:ncol(W_i), function(ind) {
+    W_is = lapply(seq(n_levels), function(ind) {
       W_i[, ind]
     })
 
@@ -167,11 +205,13 @@ staple_multi_mat = function(
       sum_w = sum(W_i)
 
       new_p  = t(mat) * W_i
-      new_p  = colSums(new_p,	na.rm = TRUE)
+      # new_p  = colSums(new_p,	na.rm = TRUE)
+      new_p  = colSums(new_p)
       new_p = new_p/(sum_w + eps)
 
       new_q  = t(dmat) * (1 - W_i)
-      new_q  = colSums(new_q,	na.rm = TRUE)
+      # new_q  = colSums(new_q,	na.rm = TRUE)
+      new_q  = colSums(new_q)
       new_q = new_q/(n_voxels - sum_w + eps)
       return(list(new_p = new_p, new_q = new_q))
     }, mats, dmats, W_is, SIMPLIFY = FALSE)
@@ -206,16 +246,27 @@ staple_multi_mat = function(
   colnames(W_i) = umat
   stopifnot(!any(is.na(W_i)))
 
+  outimg = matrix(NA, nrow = n_all_voxels, ncol = n_levels)
+  colnames(outimg) = umat
+  outimg[not_all_same, ] = W_i
+  # those all the same are given prob 1 of that class
+  xind = x[1, !not_all_same]
+  sub = outimg[!not_all_same, ]
+  sub_replacement = sapply(umat, function(r) r == xind)
+  stopifnot(all(dim(sub) == dim(sub_replacement)))
+  # sub[, umat == xind] = 1
+  # sub[, umat != xind] = 0
+  outimg[!not_all_same, ] = sub_replacement
+  stopifnot(!any(is.na(outimg)))
+
+
   ties.method = match.arg(ties.method)
-  label = umat[max.col(W_i, ties.method = ties.method)]
-  # outimg = rep(0, n_all_voxels)
-  # outimg[ all_one ] = 1
-  # outimg[keep] = W_i
+  label = umat[max.col(outimg, ties.method = ties.method)]
 
   L = list(
     sensitivity = p,
     specificity = q,
-    probability = W_i,
+    probability = outimg,
     label = label,
     prior = prior,
     number_iterations = iiter,

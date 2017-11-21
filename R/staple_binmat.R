@@ -103,17 +103,21 @@ staple_bin_mat = function(
   }
   mat = x[, keep]
   f_t_i = f_t_i[keep]
+
   if (any(f_t_i %in% c(0, 1))) {
     warning("Some elements in prior are in {0, 1}")
   }
 
   n_voxels = ncol(mat)
-  dmat = 1L - mat
-  class(dmat) = "logical"
+  # dmat = (1L - mat) > 0
+  dmat = !mat
+
+  d_f_t_i = 1 - f_t_i
 
   # doing this for na.rm arguments
-  mat[ mat == 0] = NA
-  dmat[dmat == 0] = NA
+  # tied to first code
+  # mat[ mat == 0] = NA
+  # dmat[dmat == 0] = NA
 
   ###################
   #initialize
@@ -126,20 +130,28 @@ staple_bin_mat = function(
   # mat is D
   ### run E Step
   for (iiter in seq(max_iter)) {
-    pmat = p * mat
-    pmat = matrixStats::colProds(pmat, na.rm = TRUE)
-    sep_pmat = (1 - p) * dmat
-    sep_pmat =  matrixStats::colProds(sep_pmat, na.rm = TRUE)
+    # pmat = p * mat
+    # pmat = matrixStats::colProds(pmat, na.rm = TRUE)
+    # sep_pmat = (1 - p) * dmat
+    # sep_pmat =  matrixStats::colProds(sep_pmat, na.rm = TRUE)
+    #
+    # qmat = q * mat
+    # qmat =  matrixStats::colProds(qmat, na.rm = TRUE)
+    # sep_qmat = (1 - q) * dmat
+    # sep_qmat =  matrixStats::colProds(sep_qmat, na.rm = TRUE)
+    # a_i = f_t_i * pmat * sep_pmat
+    # b_i = (1 - f_t_i) * qmat * sep_qmat
 
-    qmat = q * mat
-    qmat =  matrixStats::colProds(qmat, na.rm = TRUE)
-    sep_qmat = (1 - q) * dmat
-    sep_qmat =  matrixStats::colProds(sep_qmat, na.rm = TRUE)
+    # E Step
+    a_i = p ^ mat * (1 - p) ^ dmat
+    a_i = f_t_i * matrixStats::colProds(a_i)
 
-    a_i = f_t_i * pmat * sep_pmat
-    b_i = (1 - f_t_i) * qmat * sep_qmat
+    b_i = q ^ dmat * (1 - q) ^ mat
+    b_i = d_f_t_i * matrixStats::colProds(b_i)
+
     W_i = a_i/(a_i + b_i)
 
+    # M step
     ##########################
     # do these make sense to do?
     ##########################
@@ -148,13 +160,17 @@ staple_bin_mat = function(
 
     sum_w = sum(W_i)
 
+    # works if mat has NA or NOT
     new_p  = t(mat) * W_i
-    new_p  = colSums(new_p,	na.rm = TRUE)
+    # new_p  = colSums(new_p,	na.rm = TRUE)
+    new_p  = colSums(new_p)
     new_p = new_p/(sum_w + eps)
 
     new_q  = t(dmat) * (1 - W_i)
-    new_q  = colSums(new_q,	na.rm = TRUE)
+    # new_q  = colSums(new_q,	na.rm = TRUE)
+    new_q  = colSums(new_q)
     new_q = new_q/(n_voxels - sum_w + eps)
+
 
     diff_p = abs(p - new_p)
     diff_q = abs(q - new_q)
