@@ -10,17 +10,41 @@ test_that("Staple binary matrix", {
   pred_1 = rbinom(n = n, size = n_1, prob = sens)
   pred_0 = rbinom(n = n, size = n_0, prob = spec)
   pred_0 = sapply(pred_0, function(n) {
-     sample(c(rep(0, n), rep(1, n_0 - n)))
+    sample(c(rep(0, n), rep(1, n_0 - n)))
   })
   pred_1 = sapply(pred_1, function(n) {
-     sample(c(rep(1, n), rep(0, n_1 - n)))
+    sample(c(rep(1, n), rep(0, n_1 - n)))
   })
   pred = rbind(pred_0, pred_1)
   true_sens = colMeans(pred[ truth == 1, ])
   true_spec = colMeans(1 - pred[ truth == 0, ])
   x = t(pred)
 
-  expect_message(staple_bin_mat(x))
-  expect_silent(staple_bin_mat(x, prior = rep(0.5, r), verbose = FALSE))
+  expect_message({res = staple_bin_mat(x)})
+  expect_equal(res$sensitivity, c(0.741808211133125, 0.856147018471266,
+                                  0.788254106963426, 0.320686380642557,
+                                  0.716769357165729))
+  expect_equal(res$specificity, c(0.72057091199614, 0.365912614140717,
+                                  0.986925344040976, 0.935190213099036,
+                                  0.801345660831361))
+  table(res$label, truth)
+  accuracy = mean(res$label == truth)
+  expect_equal(accuracy, 0.97)
+
+  expect_silent({
+    res = staple_bin_mat(x, prior = rep(0.5, r),
+                         verbose = FALSE)
+  })
+  expect_equal(res$sensitivity,
+               c(0.650871843714839, 0.723444998919003,
+                 0.603650062308871, 0.256381743290724,
+                 0.631512689774438)
+  )
+  expect_equal(res$specificity,
+               c(0.743603219845167, 0.306249452178814,
+                 0.999999999844062, 0.936829464387461,
+                 0.840374092685984)
+  )
+  table(res$label, truth)
 
 })
