@@ -7,13 +7,15 @@
 \usage{
 staple_bin_img(x, set_origin = FALSE, verbose = TRUE, ...)
 
-staple_multi_img(x, set_origin = FALSE, ...)
+staple_multi_img(x, set_origin = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}
 
 \item{set_origin}{Should the origin be set to the same if they images are
 \code{niftiImage}s}
+
+\item{verbose}{print diagnostic messages}
 
 \item{...}{Additional arguments to \code{\link{staple_bin_mat}}}
 }

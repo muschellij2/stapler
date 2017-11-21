@@ -45,6 +45,7 @@ reshape_img = function(x, set_origin = TRUE) {
 #' @param x Character vector of filenames or list of arrays/images
 #' @param set_origin Should the origin be set to the same if they images are
 #' \code{niftiImage}s
+#' @param verbose print diagnostic messages
 #' @param ... Additional arguments to \code{\link{staple_bin_mat}}
 #'
 #' @return A list similar to \code{\link{staple_bin_mat}}, but
@@ -82,7 +83,7 @@ staple_bin_img = function(
   res = staple_bin_mat(x, verbose = verbose, ...)
 
   if (verbose) {
-    message("Creating output image/array")
+    message("Creating output probability image/array")
   }
   outimg = array(res$probability,
                  dim = dim(first_image))
@@ -125,8 +126,12 @@ staple_bin_img = function(
 staple_multi_img = function(
   x,
   set_origin = FALSE,
+  verbose = TRUE,
   ...) {
 
+  if (verbose) {
+    message("Reshaping images")
+  }
   x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image
   x = x$x
@@ -140,6 +145,9 @@ staple_multi_img = function(
   hdr$datatype = 16
   hdr$bitpix = 32
 
+  if (verbose) {
+    message("Creating output probability images/arrays")
+  }
   n_level = ncol(prob)
   outimg = lapply(seq(n_level), function(ind) {
     probability = prob[, ind]
@@ -154,6 +162,9 @@ staple_multi_img = function(
 
   hdr$datatype = 8
   hdr$bitpix = 32
+  if (verbose) {
+    message("Creating output label image/array")
+  }
   label = array(
     res$label,
     dim = dim(first_image))
