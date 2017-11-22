@@ -63,6 +63,7 @@ staple_multi_mat = function(
   xmats = lapply(umat, function(val) {
     x == val
   })
+  colnames(xmats) = umat
 
   # not_all_same = lapply(xmats, function(x) {
   #   cs = colSums(x)
@@ -262,6 +263,8 @@ staple_multi_mat = function(
 
   ties.method = match.arg(ties.method)
   label = umat[max.col(outimg, ties.method = ties.method)]
+
+  colnames(p) = colnames(q) = umat
 
   L = list(
     sensitivity = p,

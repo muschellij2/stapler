@@ -29,22 +29,34 @@ test_that("Staple binary matrix", {
                                   0.801345660831361))
   table(res$label, truth)
   accuracy = mean(res$label == truth)
-  expect_equal(accuracy, 0.97)
+  expect_equal(accuracy, 0.981)
 
   expect_silent({
-    res = staple_bin_mat(x, prior = rep(0.5, r),
+    res2 = staple_bin_mat(x, prior = rep(0.5, r),
                          verbose = FALSE)
   })
-  expect_equal(res$sensitivity,
+  expect_equal(res2$sensitivity,
                c(0.650871843714839, 0.723444998919003,
                  0.603650062308871, 0.256381743290724,
                  0.631512689774438)
   )
-  expect_equal(res$specificity,
+  expect_equal(res2$specificity,
                c(0.743603219845167, 0.306249452178814,
                  0.999999999844062, 0.936829464387461,
                  0.840374092685984)
   )
-  table(res$label, truth)
+  table(res2$label, truth)
+
+  #######################################
+  # Given only 2 classes - should give same
+  #######################################
+  expect_message({
+    multi_res = staple_multi_mat(x)
+  })
+  expect_equal(res$label*1, multi_res$label)
+  expect_equal(res$sensitivity, multi_res$sensitivity[, "1"])
+  expect_equal(res$specificity, multi_res$specificity[, "1"])
+
+
 
 })

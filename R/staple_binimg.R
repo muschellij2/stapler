@@ -1,49 +1,7 @@
-ensure_Nifti = function(x) {
-  if (is.list(x)) {
-    x = lapply(x, ensure_Nifti)
-    return(x)
-  }
-  if (is.character(x)) {
-    if (length(x) > 0) {
-      x = lapply(x, readNifti)
-    } else {
-      x = readNifti(x)
-    }
-  }
-  # allow for arrays
-  if (is.array(x)) {
-    return(x)
-  }
-  if (!inherits(x, "niftiImage")) {
-    warning("x is not a RNifti::niftiImage image - may not work!")
-  }
-  x
-}
-
-reshape_img = function(x, set_origin = TRUE) {
-  x = ensure_Nifti(x)
-  # orientations = sapply(imgs, orientation)
-  first_image = x[[1]]
-
-  if (set_origin) {
-    ori = orientation(first_image)
-    x = lapply(x,
-               function(x) {
-                 orientation(x) = ori
-                 x
-               })
-  }
-
-  x = t(sapply(x, c))
-  L = list(x = x,
-           first_image = first_image)
-  return(L)
-}
-
 #' Run STAPLE on a set of nifti images
 #'
 #' @param x Character vector of filenames or list of arrays/images
-#' @param set_origin Should the origin be set to the same if they images are
+#' @param set_origin Should the origin be set to the same if the images are
 #' \code{niftiImage}s
 #' @param verbose print diagnostic messages
 #' @param ... Additional arguments to \code{\link{staple_bin_mat}}
@@ -76,6 +34,7 @@ staple_bin_img = function(
   }
   x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image
+  all_nifti = x$all_nifti
   x = x$x
   if (verbose) {
     message("Running STAPLE for binary matrix")
@@ -87,27 +46,44 @@ staple_bin_img = function(
   }
   outimg = array(res$probability,
                  dim = dim(first_image))
+  if (all_nifti) {
+    hdr = RNifti::dumpNifti(first_image)
+    hdr$cal_max = 1
+    hdr$cal_min = 0
+    hdr$datatype = 16
+    hdr$bitpix = 32
 
-  hdr = RNifti::dumpNifti(first_image)
-  hdr$cal_max = 1
-  hdr$cal_min = 0
-  hdr$datatype = 16
-  hdr$bitpix = 32
+    outimg = RNifti::updateNifti(
+      outimg, template = hdr)
+  }
 
-  outimg = RNifti::updateNifti(
-    outimg, template = hdr)
+  if (verbose) {
+    message("Creating output prior image/array")
+  }
+  priorimg = array(res$prior,
+                   dim = dim(first_image))
+  if (all_nifti) {
+    priorimg = RNifti::updateNifti(
+      priorimg, template = hdr)
+  }
+
   if (verbose) {
     message("Creating label image (probability >= 0.5)")
   }
-
-  hdr$datatype = 2
-  hdr$bitpix = 8
   label = array(res$label,
-                 dim = dim(first_image))
-  label = RNifti::updateNifti(
-    label, template = hdr)
+                dim = dim(first_image))
+  if (all_nifti) {
+    hdr$datatype = 2
+    hdr$bitpix = 8
+
+    label = RNifti::updateNifti(
+      label, template = hdr)
+  }
+
+
   res$probability = outimg
   res$label = label
+  res$prior = priorimg
 
   return(res)
 
@@ -134,42 +110,65 @@ staple_multi_img = function(
   }
   x = reshape_img(x = x, set_origin = set_origin)
   first_image = x$first_image
+  all_nifti = x$all_nifti
   x = x$x
   res = staple_multi_mat(x, ...)
 
-  prob = res$probability
-
-  hdr = RNifti::dumpNifti(first_image)
-  hdr$cal_max = 1
-  hdr$cal_min = 0
-  hdr$datatype = 16
-  hdr$bitpix = 32
+  if (all_nifti) {
+    hdr = RNifti::dumpNifti(first_image)
+    hdr$cal_max = 1
+    hdr$cal_min = 0
+    hdr$datatype = 16
+    hdr$bitpix = 32
+  }
 
   if (verbose) {
     message("Creating output probability images/arrays")
   }
-  n_level = ncol(prob)
+  n_level = ncol(res$probability)
   outimg = lapply(seq(n_level), function(ind) {
-    probability = prob[, ind]
+    probability = res$probability[, ind]
     outimg = array(
       probability,
       dim = dim(first_image))
-
-    outimg = RNifti::updateNifti(
-      outimg, template = hdr)
+    if (all_nifti) {
+      outimg = RNifti::updateNifti(
+        outimg, template = hdr)
+    }
+    return(outimg)
   })
+  names(outimg) = colnames(res$probability)
   res$outimg = outimg
+  rm(list = "outimg"); gc()
 
-  hdr$datatype = 8
-  hdr$bitpix = 32
+  priorimg = lapply(seq(n_level), function(ind) {
+    probability = res$prior[, ind]
+    outimg = array(
+      probability,
+      dim = dim(first_image))
+    if (all_nifti) {
+      outimg = RNifti::updateNifti(
+        outimg, template = hdr)
+    }
+    return(outimg)
+  })
+  names(outimg) = colnames(res$prior)
+  res$prior = priorimg
+  rm(list = "priorimg"); gc()
+
   if (verbose) {
     message("Creating output label image/array")
   }
   label = array(
     res$label,
     dim = dim(first_image))
-  label = RNifti::updateNifti(
-    label, template = hdr)
+
+  if (all_nifti) {
+    hdr$datatype = 8
+    hdr$bitpix = 32
+    label = RNifti::updateNifti(
+      label, template = hdr)
+  }
   res$label = label
 
   return(res)

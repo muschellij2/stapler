@@ -4,7 +4,7 @@
 rm(list = ls())
 library(matrixStats)
 library(RNifti)
-
+library(stapler)
 
 files = list.files(
   path = "~/Desktop/staple/",

@@ -12,7 +12,7 @@ staple_multi_img(x, set_origin = FALSE, verbose = TRUE, ...)
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}
 
-\item{set_origin}{Should the origin be set to the same if they images are
+\item{set_origin}{Should the origin be set to the same if the images are
 \code{niftiImage}s}
 
 \item{verbose}{print diagnostic messages}
