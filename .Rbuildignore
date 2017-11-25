@@ -5,3 +5,4 @@
 ^appveyor\.yml$
 ^\.travis\.yml$
 staple_test\.R$
+^cran-comments\.md$
