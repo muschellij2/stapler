@@ -11,9 +11,9 @@ staple_bin_mat(x, sens_init = 0.99999, spec_init = 0.99999,
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated}
 
-\item{sens_init}{Initalize parameter for sensitivity (p)}
+\item{sens_init}{Initialize parameter for sensitivity (p)}
 
-\item{spec_init}{Initalize parameter for specificity (q)}
+\item{spec_init}{Initialize parameter for specificity (q)}
 
 \item{max_iter}{Maximum number of iterations to run}
 

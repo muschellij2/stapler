@@ -1,8 +1,8 @@
 #' STAPLE on Multi-class matrix
 #'
 #' @param x a nxr matrix where there are n raters and r elements rated
-#' @param sens_init Initalize matrix for sensitivity (p)
-#' @param spec_init  Initalize matrix for specificity (q)
+#' @param sens_init Initialize matrix for sensitivity (p)
+#' @param spec_init  Initialize matrix for specificity (q)
 #' @param max_iter Maximum number of iterations to run
 #' @param tol Tolerance for convergence
 #' @param prior Either "mean" or a matrix of prior probabilities,

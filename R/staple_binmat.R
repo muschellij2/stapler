@@ -1,8 +1,8 @@
 #' STAPLE on binary matrix
 #'
 #' @param x a nxr matrix where there are n raters and r elements rated
-#' @param sens_init Initalize parameter for sensitivity (p)
-#' @param spec_init  Initalize parameter for specificity (q)
+#' @param sens_init Initialize parameter for sensitivity (p)
+#' @param spec_init  Initialize parameter for specificity (q)
 #' @param max_iter Maximum number of iterations to run
 #' @param tol Tolerance for convergence
 #' @param prior Either "mean" or a vector of prior probabilities,
