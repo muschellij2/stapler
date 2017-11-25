@@ -9,6 +9,7 @@ ensure_Nifti = function(x) {
     } else {
       x = readNifti(x)
     }
+    return(x)
   }
   # allow for arrays
   if (is.array(x)) {
@@ -20,7 +21,7 @@ ensure_Nifti = function(x) {
   x
 }
 
-reshape_img = function(x, set_origin = TRUE) {
+reshape_img = function(x, set_orient = TRUE, verbose = TRUE) {
   x = ensure_Nifti(x)
   msg = "Using a staple_*_img function, but images not passed!"
   if (is.matrix(x)) {
@@ -38,7 +39,10 @@ reshape_img = function(x, set_origin = TRUE) {
   if (any_nifti & !all_nifti) {
     stop("Some inputs are niftiImages and others are not, failing")
   }
-  if (set_origin) {
+  if (all_nifti && verbose) {
+    message("All images are niftiImage ojects")
+  }
+  if (set_orient) {
     if (all_nifti) {
       ori = orientation(first_image)
       x = lapply(x,
@@ -47,7 +51,7 @@ reshape_img = function(x, set_origin = TRUE) {
                    x
                  })
     } else {
-      warning("set_origin = TRUE, but niftiImages not passed!")
+      warning("set_orient = TRUE, but niftiImages not passed!")
     }
   }
 

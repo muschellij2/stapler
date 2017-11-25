@@ -5,14 +5,14 @@
 \alias{staple_multi_img}
 \title{Run STAPLE on a set of nifti images}
 \usage{
-staple_bin_img(x, set_origin = FALSE, verbose = TRUE, ...)
+staple_bin_img(x, set_orient = FALSE, verbose = TRUE, ...)
 
-staple_multi_img(x, set_origin = FALSE, verbose = TRUE, ...)
+staple_multi_img(x, set_orient = FALSE, verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Character vector of filenames or list of arrays/images}
 
-\item{set_origin}{Should the origin be set to the same if the images are
+\item{set_orient}{Should the orientation be set to the same if the images are
 \code{niftiImage}s}
 
 \item{verbose}{print diagnostic messages}
@@ -34,7 +34,7 @@ x = lapply(seq(n), function(i) {
    x = rbinom(n = r, size = 1, prob = 0.5)
    array(x, dim = c(10,10, 10))
  })
-staple_out = staple_bin_img(x, set_origin = FALSE)
+staple_out = staple_bin_img(x, set_orient = FALSE)
 
 n = 5
 r = 1000
@@ -42,5 +42,5 @@ x = lapply(seq(n), function(i) {
    x = rbinom(n = r, size = 5, prob = 0.5)
    array(x, dim = c(10,10, 10))
  })
-staple_out = staple_multi_img(x, set_origin = FALSE)
+staple_out = staple_multi_img(x, set_orient = FALSE)
 }

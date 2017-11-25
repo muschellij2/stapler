@@ -8,13 +8,13 @@
 #' is used for image filenames
 #' @param ... Options for STAPLE, see \code{\link{staple_bin_mat}} and
 #' \code{\link{staple_multi_mat}}
-#' @param set_origin Should the origin be set to the same if x is a
+#' @param set_orient Should the orientation be set to the same if x is a
 #' set of images, including \code{niftiImage}s.
 #' @export
 staple = function(
   x,
   ...,
-  set_origin = FALSE) {
+  set_orient = FALSE) {
   UseMethod("staple")
 }
 
@@ -23,7 +23,7 @@ staple = function(
 staple.default = function(
   x,
   ...,
-  set_origin = FALSE){
+  set_orient = FALSE){
   res = staple_multi_mat(x, ...)
   return(res)
 }
@@ -34,9 +34,9 @@ staple.default = function(
 staple.list = function(
   x,
   ...,
-  set_origin = FALSE){
+  set_orient = FALSE){
 
-  res = staple_multi_img(x, set_origin = set_origin, ...)
+  res = staple_multi_img(x, set_orient = set_orient, ...)
   if (length(res$probability) == 2) {
     res$probability = res$probability[[2]]
     res$prior = res$prior[[2]]
@@ -51,9 +51,9 @@ staple.list = function(
 staple.character = function(
   x,
   ...,
-  set_origin = FALSE){
+  set_orient = FALSE){
 
-  res = staple_multi_img(x, set_origin = set_origin, ...)
+  res = staple_multi_img(x, set_orient = set_orient, ...)
   if (length(res$probability) == 2) {
     res$probability = res$probability[[2]]
     res$prior = res$prior[[2]]
@@ -69,7 +69,7 @@ staple.character = function(
 staple.array = function(
   x,
   ...,
-  set_origin = FALSE){
+  set_orient = FALSE){
   ndim = length(dim(x))
   if (ndim > 2) {
     stop(paste0("Array of more than 2 dimensions given.  ",

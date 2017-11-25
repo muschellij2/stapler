@@ -63,7 +63,7 @@ staple_multi_mat = function(
   xmats = lapply(umat, function(val) {
     x == val
   })
-  colnames(xmats) = umat
+  names(xmats) = umat
 
   # not_all_same = lapply(xmats, function(x) {
   #   cs = colSums(x)

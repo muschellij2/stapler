@@ -8,15 +8,15 @@
 \alias{staple.array}
 \title{Generic STAPLE Algorithm}
 \usage{
-staple(x, ..., set_origin = FALSE)
+staple(x, ..., set_orient = FALSE)
 
-\method{staple}{default}(x, ..., set_origin = FALSE)
+\method{staple}{default}(x, ..., set_orient = FALSE)
 
-\method{staple}{list}(x, ..., set_origin = FALSE)
+\method{staple}{list}(x, ..., set_orient = FALSE)
 
-\method{staple}{character}(x, ..., set_origin = FALSE)
+\method{staple}{character}(x, ..., set_orient = FALSE)
 
-\method{staple}{array}(x, ..., set_origin = FALSE)
+\method{staple}{array}(x, ..., set_orient = FALSE)
 }
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated,
@@ -26,7 +26,7 @@ is used for image filenames}
 \item{...}{Options for STAPLE, see \code{\link{staple_bin_mat}} and
 \code{\link{staple_multi_mat}}}
 
-\item{set_origin}{Should the origin be set to the same if x is a
+\item{set_orient}{Should the orientation be set to the same if x is a
 set of images, including \code{niftiImage}s.}
 }
 \description{

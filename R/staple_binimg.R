@@ -1,7 +1,7 @@
 #' Run STAPLE on a set of nifti images
 #'
 #' @param x Character vector of filenames or list of arrays/images
-#' @param set_origin Should the origin be set to the same if the images are
+#' @param set_orient Should the orientation be set to the same if the images are
 #' \code{niftiImage}s
 #' @param verbose print diagnostic messages
 #' @param ... Additional arguments to \code{\link{staple_bin_mat}}
@@ -19,20 +19,21 @@
 #'    x = rbinom(n = r, size = 1, prob = 0.5)
 #'    array(x, dim = c(10,10, 10))
 #'  })
-#' staple_out = staple_bin_img(x, set_origin = FALSE)
+#' staple_out = staple_bin_img(x, set_orient = FALSE)
 #'
 #' @importFrom RNifti readNifti dumpNifti updateNifti orientation
 #' @importFrom RNifti "orientation<-"
 staple_bin_img = function(
   x,
-  set_origin = FALSE,
+  set_orient = FALSE,
   verbose = TRUE,
   ...) {
 
   if (verbose) {
     message("Reshaping images")
   }
-  x = reshape_img(x = x, set_origin = set_origin)
+  x = reshape_img(x = x, set_orient = set_orient,
+                  verbose = verbose)
   first_image = x$first_image
   all_nifti = x$all_nifti
   x = x$x
@@ -84,7 +85,8 @@ staple_bin_img = function(
   res$probability = outimg
   res$label = label
   res$prior = priorimg
-
+  rm(list = c("outimg", "priorimg", "label"))
+  gc()
   return(res)
 
 }
@@ -98,17 +100,18 @@ staple_bin_img = function(
 #'    x = rbinom(n = r, size = 5, prob = 0.5)
 #'    array(x, dim = c(10,10, 10))
 #'  })
-#' staple_out = staple_multi_img(x, set_origin = FALSE)
+#' staple_out = staple_multi_img(x, set_orient = FALSE)
 staple_multi_img = function(
   x,
-  set_origin = FALSE,
+  set_orient = FALSE,
   verbose = TRUE,
   ...) {
 
   if (verbose) {
     message("Reshaping images")
   }
-  x = reshape_img(x = x, set_origin = set_origin)
+  x = reshape_img(x = x, set_orient = set_orient,
+                  verbose = verbose)
   first_image = x$first_image
   all_nifti = x$all_nifti
   x = x$x
@@ -138,7 +141,7 @@ staple_multi_img = function(
     return(outimg)
   })
   names(outimg) = colnames(res$probability)
-  res$outimg = outimg
+  res$probability = outimg
   rm(list = "outimg"); gc()
 
   priorimg = lapply(seq(n_level), function(ind) {
@@ -152,7 +155,7 @@ staple_multi_img = function(
     }
     return(outimg)
   })
-  names(outimg) = colnames(res$prior)
+  names(priorimg) = colnames(res$prior)
   res$prior = priorimg
   rm(list = "priorimg"); gc()
 
