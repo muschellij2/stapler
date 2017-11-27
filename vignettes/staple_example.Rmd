@@ -1,0 +1,52 @@
+---
+title: "STAPLE Example"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{STAPLE Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## STAPLE Example
+
+```{r sim_data, include=FALSE}
+images = staple_example_data()
+```
+
+Simultaneous truth and performance level estimation (STAPLE) is a method for estimating a image segmentation.  Commonly an image is segmented from a set of raters or readers.  Here, we have an image that has been segmented from `r length(images)` different readers.  Each is a binary segmentation, which includes areas of lesions from one person's image.  
+
+## Running STAPLE 
+
+Here we will use STAPLE to fuse the data:
+
+```{r data}
+images = staple_example_data()
+res = staple(x = images, set_orient = TRUE)
+print(names(res))
+```
+
+
+We use the `set_orient = TRUE` argument so that if the images headers are different, then they will be set to the same orientation when run.  The `staple` function will read in the images, reshape the data into a matrix, compute a prior for each element (voxel, in this case), run STAPLE.  The output probability image, labeled image (if probability $\geq 0.5$), and prior image are given in the output `res`.
+
+## Multi-class STAPLE
+
+STAPLE works with multi-class data as well.  The data do not need to be binary, but they need to be consistently labeled for each image/segmentation.  Here we will 
+
+```{r}
+x = matrix(rbinom(5000, size = 5, prob = 0.5), ncol = 1000)
+table(x)
+res_mult = staple_multi_mat(x)
+ncol(res_mult$probability)
+colnames(res_mult$probability)
+```
+
+

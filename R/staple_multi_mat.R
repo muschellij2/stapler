@@ -56,7 +56,17 @@ staple_multi_mat = function(
   umat = sort(unique(c(x)))
   umat = as.numeric(umat)
   n_levels = length(umat)
+  if (verbose) {
+    message(paste0("There are ", n_levels, " levels present"))
+  }
 
+  not_all_same = matrixStats::colVars(x) > 0
+
+  if (verbose) {
+    message("Removing elements where all raters agree")
+  }
+  xsame = x[, !not_all_same]
+  x = x[, not_all_same]
   if (verbose) {
     message("Making multiple, matrices. Hot-one encode")
   }
@@ -64,20 +74,6 @@ staple_multi_mat = function(
     x == val
   })
   names(xmats) = umat
-
-  # not_all_same = lapply(xmats, function(x) {
-  #   cs = colSums(x)
-  #   all_zero = cs == 0
-  #   # only_one = cs == 1
-  #   # if all vote yes - then yes
-  #   all_one = cs == n_readers
-  #   not_all_same = !all_zero & !all_one
-  #
-  #   stopifnot(!any(is.na(not_all_same)))
-  #   return(list(not_all_same = not_all_same, all_one = all_one))
-  # })
-  # not_all_same = Reduce("|", not_all_same)
-  not_all_same = matrixStats::colVars(x) > 0
 
   ####################################
   # Keeping only voxels with more than 1 says yes
@@ -88,7 +84,7 @@ staple_multi_mat = function(
     f_t_i = sapply(xmats, colMeans, na.rm = TRUE)
     prior = f_t_i
   } else {
-    stop("not implemented")
+    stop("Not implemented")
     prior = as.matrix(prior)
     n_prior = ncol(prior)
     if (n_prior != n_all_voxels) {
@@ -101,19 +97,16 @@ staple_multi_mat = function(
     if (any(prior %in% c(0, 1))) {
       warning("Some elements in prior are in {0, 1}")
     }
+    f_t_i = f_t_i[not_all_same,]
+
     # all_one = all_one | prior == 1
     # all_zero = all_zero | prior == 0
     # not_all_same = !all_zero & !all_one
     # stopifnot(!any(is.na(not_all_same)))
   }
-  if (verbose) {
-    message("Removing elements where all raters agree")
-  }
-  # mats = lapply(xmats, function(r) r[, not_all_same])
-  # mats = xmats
-  mats = lapply(xmats, function(r) r[, not_all_same])
-  f_t_i = f_t_i[not_all_same,]
 
+  # mats = lapply(xmats, function(r) r[, not_all_same])
+  mats = xmats
   d_f_t_i = 1 - f_t_i
 
 
@@ -251,7 +244,8 @@ staple_multi_mat = function(
   colnames(outimg) = umat
   outimg[not_all_same, ] = W_i
   # those all the same are given prob 1 of that class
-  xind = x[1, !not_all_same]
+  # xind = x[1, !not_all_same]
+  xind = xsame[1,]
   sub = outimg[!not_all_same, ]
   sub_replacement = sapply(umat, function(r) r == xind)
   stopifnot(all(dim(sub) == dim(sub_replacement)))
@@ -259,6 +253,13 @@ staple_multi_mat = function(
   # sub[, umat != xind] = 0
   outimg[!not_all_same, ] = sub_replacement
   stopifnot(!any(is.na(outimg)))
+
+  # need to replace prior correctly
+  pprior = matrix(NA, nrow = n_all_voxels, ncol = n_levels)
+  pprior[not_all_same, ] = prior
+  pprior[!not_all_same, ] = sub_replacement
+  prior = pprior
+  rm(list = "pprior")
 
 
   ties.method = match.arg(ties.method)
