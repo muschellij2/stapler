@@ -29,6 +29,7 @@ Simultaneous truth and performance level estimation (STAPLE) is a method for est
 Here we will use STAPLE to fuse the data:
 
 ```{r data}
+library(stapler)
 images = staple_example_data()
 res = staple(x = images, set_orient = TRUE)
 print(names(res))
