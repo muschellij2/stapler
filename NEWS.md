@@ -1,3 +1,7 @@
+# stapler 0.6.3
+
+* Fixed `DESCRIPTION` file for CRAN.
+
 # stapler 0.6.2
 
 * First Submission to CRAN

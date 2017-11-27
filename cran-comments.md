@@ -14,3 +14,5 @@
 This is a new release, so there are no reverse dependencies.
 
 ---
+
+Fixed the DOI in the DESCRIPTION as well as Title and Description fields.
