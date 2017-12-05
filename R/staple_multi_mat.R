@@ -237,6 +237,12 @@ staple_multi_mat = function(
     q = new_q
   }
 
+  if (diff > tol) {
+    warning(paste0(
+      "Algorithm did not converge - ",
+      "may need additional iterations!")
+    )
+  }
   colnames(W_i) = umat
   stopifnot(!any(is.na(W_i)))
 
@@ -275,7 +281,9 @@ staple_multi_mat = function(
     prior = prior,
     number_iterations = iiter,
     convergence_threshold = tol,
-    convergence_value = diff
+    convergence_value = diff,
+    converged = diff <= tol
   )
+
   return(L)
 }

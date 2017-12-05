@@ -184,7 +184,7 @@ staple_bin_mat = function(
       if (verbose) {
         if (iiter %% trace == 0) {
           message(paste0("iter: ", iiter,
-                   ", diff: ", diff))
+                         ", diff: ", diff))
         }
       }
     }
@@ -193,6 +193,12 @@ staple_bin_mat = function(
     q = new_q
   }
 
+  if (diff > tol) {
+    warning(paste0(
+      "Algorithm did not converge - ",
+      "may need additional iterations!")
+    )
+  }
   stopifnot(!any(is.na(W_i)))
 
   outimg = rep(0, n_all_voxels)
@@ -207,7 +213,8 @@ staple_bin_mat = function(
     prior = prior,
     number_iterations = iiter,
     convergence_threshold = tol,
-    convergence_value = diff
+    convergence_value = diff,
+    converged = diff <= tol
   )
   return(L)
 }

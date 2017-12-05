@@ -54,7 +54,14 @@ reshape_img = function(x, set_orient = TRUE, verbose = TRUE) {
       warning("set_orient = TRUE, but niftiImages not passed!")
     }
   }
-
+  dims = lapply(x, dim)
+  res = sapply(dims,
+               identical,
+               x = dims[[1]])
+  res = all(res)
+  if (!all(res)) {
+    stop("Images are not all the same dimensions!")
+  }
   x = t(sapply(x, c))
   L = list(x = x,
            first_image = first_image,
