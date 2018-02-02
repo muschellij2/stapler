@@ -1,6 +1,6 @@
 ## Test environments
-* local OS X install, R 3.4.2
-* ubuntu 12.04 (on travis-ci), R 3.4.2
+* local OS X install, R 3.4.3
+* ubuntu 12.04 (on travis-ci), R 3.4.3
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -12,7 +12,3 @@
 ## Reverse dependencies
 
 This is a new release, so there are no reverse dependencies.
-
----
-
-Fixed the DOI in the DESCRIPTION as well as Title and Description fields.
