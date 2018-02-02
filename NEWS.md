@@ -1,3 +1,7 @@
+# stapler 0.6.5
+
+* Added checks for dimensions.
+
 # stapler 0.6.3
 
 * Fixed `DESCRIPTION` file for CRAN.
