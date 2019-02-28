@@ -6,7 +6,8 @@
 \usage{
 staple_multi_mat(x, sens_init = 0.99999, spec_init = 0.99999,
   max_iter = 10000, tol = .Machine$double.eps, prior = "mean",
-  verbose = TRUE, trace = 25, ties.method = c("first", "random", "last"))
+  verbose = TRUE, trace = 25, ties.method = c("first", "random",
+  "last"))
 }
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated}

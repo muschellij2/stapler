@@ -1,0 +1,23 @@
+
+[![Travis build
+status](https://travis-ci.org/muschellij2/stapler.svg?branch=master)](https://travis-ci.org/muschellij2/stapler)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/muschellij2/stapler?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/stapler)
+[![Coverage
+status](https://coveralls.io/repos/github/muschellij2/stapler/badge.svg?branch=master)](https://coveralls.io/r/muschellij2/stapler?branch=master)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# stapler Package:
+
+The goal of `stapler` is to provide an implementation of Simultaneous
+Truth and Performance Level Estimation ‘(STAPLE)’, where there are
+multiple raters for an object.
+
+## Installation
+
+You can install `stapler` from GitHub with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("muschellij2/stapler")
+```
