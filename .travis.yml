@@ -4,6 +4,11 @@ cache: packages
 after_success: if [ "$TRAVIS_OS_NAME" == "linux" ]; then Rscript -e 'covr::coveralls(type
   = "all")'; fi
 warnings_are_errors: true
+
+r: 
+  - devel
+  - release
+
 before_deploy: if [ "$TRAVIS_OS_NAME" == "osx" ]; then rm -f *.tar.gz; fi
 r_check_args: "--as-cran --install-args=--build"
 deploy:
@@ -12,7 +17,6 @@ deploy:
   file_glob: yes
   api_key:
     secure: Vg+SeGHVrbE2Vs8EP2pCsk10MhUboEDF3ORLyePhOOZ/Rsab5ZzZQFmFMhMx05bXOzRttX0VIFDUQpQrljId/FZUunZDR0WLn+vPsbBy4CzlOBXfl0iiSGYQDcFZ1tg36wQ+nIvtM83juVbouPtQhQD2EoMIam4oQHOl73KVTfSH0MwcZtZISMCWXRFaDtOQE9Y3UMUWuLrDtlwdy1lllg3N4WIE/B4c9nlHpil3m9LH3vFaygrDla9QfFyYXdxG0AlVZG0Lw4K1eAsSE39gBG8iISC8vkkEr/8PjHdsX3/xRuBD8F51fGz1zv5XAUus+YPt78l8PMqtGUetlk0z7dlmn6f7SmroU4Y6IPYBszt8Eh3WQYh36Zt2JdZnVfEhk2hgUGJfsj8VgtVG5q40pXAaEQWEAE7cKDL6GE5BVxAW+f/L3j3Z1DIpfzYlwbzAZA5CaoW8BTNOTT5u9DtlmmpPP14QxuxD8G0zrjOEwyY4qGZnTIb3nkIyKiYfgV25LKKogax67Vp3gR6uMKgkpRf5g8HgsezaFa9zBlKjts2vQikvtN8fIh+lLTVhx9K6QsVOhW/tsdM/546eTUKcuJS8FiSPQdkRbI6BF63dNC3smKP2oTj46763mpo7Rc5xSMrekwcgjShm4ShjZAfQKzxJQMJZooNHMhC0Lsm1Sn4=
-
   file: stapler*.t*gz
   'on':
     tags: yes

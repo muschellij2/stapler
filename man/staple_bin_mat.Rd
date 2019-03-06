@@ -37,6 +37,7 @@ n = 5
 r = 1000
 sens = c(0.8, 0.9, 0.8, 0.5, 0.8)
 spec = c(0.9, 0.75, 0.99, 0.98, 0.92)
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(20171120)
 n_1 = 200
 n_0 = r - n_1
