@@ -1,3 +1,7 @@
+# stapler 0.6.6
+
+* Added `RNGversion` for sampling.  Will update in future.
+
 # stapler 0.6.5
 
 * Added checks for dimensions.

@@ -1,5 +1,5 @@
 Package: stapler
-Version: 0.7.0
+Version: 0.6.6
 Title: Simultaneous Truth and Performance Level Estimation 
 Description: An implementation of Simultaneous Truth and 
     Performance Level Estimation (STAPLE) <doi:10.1109/TMI.2004.828354>.  This
