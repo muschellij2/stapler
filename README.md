@@ -10,7 +10,7 @@ status](https://coveralls.io/repos/github/muschellij2/stapler/badge.svg?branch=m
 # stapler Package:
 
 The goal of `stapler` is to provide an implementation of Simultaneous
-Truth and Performance Level Estimation ‘(STAPLE)’, where there are
+Truth and Performance Level Estimation (STAPLE), where there are
 multiple raters for an object.
 
 ## Installation

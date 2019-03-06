@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 # stapler Package: 
-The goal of `stapler` is to provide an implementation of Simultaneous Truth and Performance Level Estimation '(STAPLE)', where there are multiple raters for an object.
+The goal of `stapler` is to provide an implementation of Simultaneous Truth and Performance Level Estimation (STAPLE), where there are multiple raters for an object.
 
 ## Installation
 
