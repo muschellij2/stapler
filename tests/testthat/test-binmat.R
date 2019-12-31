@@ -1,5 +1,4 @@
 test_that("Staple binary matrix", {
-  suppressWarnings(RNGversion("3.5.0"))
   set.seed(20171120)
   n = 5
   r = 1000

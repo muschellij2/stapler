@@ -60,7 +60,8 @@ staple_multi_mat = function(
     message(paste0("There are ", n_levels, " levels present"))
   }
 
-  not_all_same = matrixStats::colVars(x) > 0
+  # not_all_same = matrixStats::colVars(x) > 0
+  not_all_same = rep(TRUE, ncol(x))
 
   if (verbose) {
     message("Removing elements where all raters agree")
@@ -251,19 +252,23 @@ staple_multi_mat = function(
   outimg[not_all_same, ] = W_i
   # those all the same are given prob 1 of that class
   # xind = x[1, !not_all_same]
-  xind = xsame[1,]
-  sub = outimg[!not_all_same, ]
-  sub_replacement = sapply(umat, function(r) r == xind)
-  stopifnot(all(dim(sub) == dim(sub_replacement)))
-  # sub[, umat == xind] = 1
-  # sub[, umat != xind] = 0
-  outimg[!not_all_same, ] = sub_replacement
+  if (any(!not_all_same)) {
+    xind = xsame[1,]
+    sub = outimg[!not_all_same, ]
+    sub_replacement = sapply(umat, function(r) r == xind)
+    stopifnot(all(dim(sub) == dim(sub_replacement)))
+    # sub[, umat == xind] = 1
+    # sub[, umat != xind] = 0
+    outimg[!not_all_same, ] = sub_replacement
+  }
   stopifnot(!any(is.na(outimg)))
 
   # need to replace prior correctly
   pprior = matrix(NA, nrow = n_all_voxels, ncol = n_levels)
   pprior[not_all_same, ] = prior
-  pprior[!not_all_same, ] = sub_replacement
+  if (any(!not_all_same)) {
+    pprior[!not_all_same, ] = sub_replacement
+  }
   prior = pprior
   rm(list = "pprior")
 

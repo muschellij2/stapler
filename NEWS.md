@@ -1,3 +1,7 @@
+# stapler 0.7.0
+
+* Fixed huge bug in previous version.  Versions prior to 0.7.0 are bad.
+
 # stapler 0.6.6
 
 * Added `RNGversion` for sampling.  Will update in future.

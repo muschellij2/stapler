@@ -4,9 +4,16 @@
 \alias{staple_bin_mat}
 \title{STAPLE on binary matrix}
 \usage{
-staple_bin_mat(x, sens_init = 0.99999, spec_init = 0.99999,
-  max_iter = 10000, tol = .Machine$double.eps, prior = "mean",
-  verbose = TRUE, trace = 25)
+staple_bin_mat(
+  x,
+  sens_init = 0.99999,
+  spec_init = 0.99999,
+  max_iter = 10000,
+  tol = .Machine$double.eps,
+  prior = "mean",
+  verbose = TRUE,
+  trace = 25
+)
 }
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated}
@@ -55,6 +62,13 @@ true_sens = colMeans(pred[ truth == 1, ])
 true_spec = colMeans(1-pred[ truth == 0, ])
 x = t(pred)
 staple_out = staple_bin_mat(x)
+testthat::expect_equal(staple_out$sensitivity,
+c(0.781593858553476, 0.895868301462594,
+0.760514086161722, 0.464483444340873,
+0.765239314719065))
 staple_out_prior = staple_bin_mat(x, prior = rep(0.5, r))
+testthat::expect_equal(staple_out_prior$sensitivity,
+c(0.683572080864211, 0.821556768891859,
+0.619166852992802, 0.389409921992467, 0.67042085955546))
 
 }

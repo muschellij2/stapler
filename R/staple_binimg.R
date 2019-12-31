@@ -21,7 +21,7 @@
 #'  })
 #' staple_out = staple_bin_img(x, set_orient = FALSE)
 #'
-#' @importFrom RNifti readNifti dumpNifti updateNifti orientation
+#' @importFrom RNifti readNifti niftiHeader updateNifti orientation
 #' @importFrom RNifti "orientation<-"
 staple_bin_img = function(
   x,
@@ -48,7 +48,7 @@ staple_bin_img = function(
   outimg = array(res$probability,
                  dim = dim(first_image))
   if (all_nifti) {
-    hdr = RNifti::dumpNifti(first_image)
+    hdr = RNifti::niftiHeader(first_image)
     hdr$cal_max = 1
     hdr$cal_min = 0
     hdr$datatype = 16
@@ -118,7 +118,7 @@ staple_multi_img = function(
   res = staple_multi_mat(x, ...)
 
   if (all_nifti) {
-    hdr = RNifti::dumpNifti(first_image)
+    hdr = RNifti::niftiHeader(first_image)
     hdr$cal_max = 1
     hdr$cal_min = 0
     hdr$datatype = 16

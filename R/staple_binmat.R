@@ -36,7 +36,14 @@
 #' true_spec = colMeans(1-pred[ truth == 0, ])
 #' x = t(pred)
 #' staple_out = staple_bin_mat(x)
+#' testthat::expect_equal(staple_out$sensitivity,
+#' c(0.781593858553476, 0.895868301462594,
+#' 0.760514086161722, 0.464483444340873,
+#' 0.765239314719065))
 #' staple_out_prior = staple_bin_mat(x, prior = rep(0.5, r))
+#' testthat::expect_equal(staple_out_prior$sensitivity,
+#' c(0.683572080864211, 0.821556768891859,
+#' 0.619166852992802, 0.389409921992467, 0.67042085955546))
 #'
 #' @importFrom matrixStats colProds
 staple_bin_mat = function(
@@ -68,15 +75,23 @@ staple_bin_mat = function(
   }
   x = x > 0
 
+  cprod = matrixStats::colProds
+  # cprod = function(x) {
+  #   apply(x, 2, prod)
+  # }
+  # cprod = function(x) {
+  #   exp(colSums(log(x)))
+  # }
 
-  cs = colSums(x)
-  all_zero = cs == 0
+  # cs = colSums(x)
+  # all_zero = cs == 0
   # only_one = cs == 1
   # if all vote yes - then yes
-  all_one = cs == n_readers
-  keep = !all_zero & !all_one
+  # all_one = cs == n_readers
+  # keep = !all_zero & !all_one
+  # stopifnot(!anyNA(keep))
 
-  stopifnot(!any(is.na(keep)))
+
 
   ####################################
   # Keeping only voxels with more than 1 says yes
@@ -97,17 +112,19 @@ staple_bin_mat = function(
     if (any(prior %in% c(0, 1))) {
       warning("Some elements in prior are in {0, 1}")
     }
-    all_one = all_one | prior == 1
-    all_zero = all_zero | prior == 0
-    keep = !all_zero & !all_one
-    stopifnot(!any(is.na(keep)))
+    # all_one = all_one | prior == 1
+    # all_zero = all_zero | prior == 0
+    # keep = !all_zero & !all_one
+    # stopifnot(!any(is.na(keep)))
   }
+  keep = rep(TRUE, n_all_voxels)
+
   mat = x[, keep]
   f_t_i = f_t_i[keep]
 
-  if (any(f_t_i %in% c(0, 1))) {
-    warning("Some elements in prior are in {0, 1}")
-  }
+  # if (any(f_t_i %in% c(0, 1))) {
+  #   warning("Some elements in prior are in {0, 1}")
+  # }
 
   n_voxels = ncol(mat)
   # dmat = (1L - mat) > 0
@@ -132,24 +149,46 @@ staple_bin_mat = function(
   ### run E Step
   for (iiter in seq(max_iter)) {
     # pmat = p * mat
-    # pmat = matrixStats::colProds(pmat, na.rm = TRUE)
+    # pmat = cprod(pmat, na.rm = TRUE)
     # sep_pmat = (1 - p) * dmat
-    # sep_pmat =  matrixStats::colProds(sep_pmat, na.rm = TRUE)
+    # sep_pmat =  cprod(sep_pmat, na.rm = TRUE)
     #
     # qmat = q * mat
-    # qmat =  matrixStats::colProds(qmat, na.rm = TRUE)
+    # qmat =  cprod(qmat, na.rm = TRUE)
     # sep_qmat = (1 - q) * dmat
-    # sep_qmat =  matrixStats::colProds(sep_qmat, na.rm = TRUE)
+    # sep_qmat =  cprod(sep_qmat, na.rm = TRUE)
     # a_i = f_t_i * pmat * sep_pmat
     # b_i = (1 - f_t_i) * qmat * sep_qmat
 
     # E Step
-    a_i = p ^ mat * (1 - p) ^ dmat
-    a_i = f_t_i * matrixStats::colProds(a_i)
+    # what happens if p or q = 1 or 0?
+    # this fails then
+    # a_i = p ^ mat * (1 - p) ^ dmat
+    test_run = TRUE
+    if (test_run) {
+      a_i = b_i = mat
+      for (ireader in seq_along(p)) {
+        x = a_i[ireader, ]
+        x[mat[ireader, ]] = p[ireader]
+        x[!mat[ireader, ]] = (1 - p[ireader])
+        a_i[ireader, ] = x
 
-    b_i = q ^ dmat * (1 - q) ^ mat
-    b_i = d_f_t_i * matrixStats::colProds(b_i)
+        x = b_i[ireader, ]
+        x[!mat[ireader, ]] = q[ireader]
+        x[mat[ireader, ]] = (1 - q[ireader])
+        b_i[ireader, ] = x
+      }
+      a_i = f_t_i   * cprod(a_i)
+      b_i = d_f_t_i * cprod(b_i)
 
+    } else {
+      a_i = p ^ mat * (1 - p) ^ dmat
+      a_i = f_t_i * cprod(a_i)
+
+
+      b_i = q ^ dmat * (1 - q) ^ mat
+      b_i = d_f_t_i * cprod(b_i)
+    }
     W_i = a_i/(a_i + b_i)
 
     # M step
@@ -183,7 +222,7 @@ staple_bin_mat = function(
       break
     } else {
       if (verbose) {
-        if (iiter %% trace == 0) {
+        if (iiter %% trace == 0 || iiter == 1) {
           message(paste0("iter: ", iiter,
                          ", diff: ", diff))
         }
@@ -203,7 +242,7 @@ staple_bin_mat = function(
   stopifnot(!any(is.na(W_i)))
 
   outimg = rep(0, n_all_voxels)
-  outimg[ all_one ] = 1
+  # outimg[ all_one ] = 1
   outimg[keep] = W_i
 
   L = list(
