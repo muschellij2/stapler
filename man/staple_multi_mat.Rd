@@ -13,7 +13,8 @@ staple_multi_mat(
   prior = "mean",
   verbose = TRUE,
   trace = 25,
-  ties.method = c("first", "random", "last")
+  ties.method = c("first", "random", "last"),
+  drop_all_same = FALSE
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ staple_multi_mat(
 
 \item{ties.method}{Method passed to \code{\link{max.col}}
 for hard segmentation}
+
+\item{drop_all_same}{drop all records where they are all the same.
+DO NOT use in practice, only for validation of past results}
 }
 \value{
 List of matrix output sensitivities, specificities, and

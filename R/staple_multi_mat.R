@@ -10,6 +10,8 @@
 #' @param trace Number for modulus to print out verbose iterations
 #' @param ties.method Method passed to \code{\link{max.col}}
 #' for hard segmentation
+#' @param drop_all_same drop all records where they are all the same.
+#' DO NOT use in practice, only for validation of past results
 #'
 #' @return List of matrix output sensitivities, specificities, and
 #' matrix of probabilities
@@ -39,7 +41,8 @@ staple_multi_mat = function(
   prior = "mean",
   verbose = TRUE,
   trace = 25,
-  ties.method = c("first", "random", "last")
+  ties.method = c("first", "random", "last"),
+  drop_all_same = FALSE
 ){
 
   n_readers = nrow(x)
@@ -60,8 +63,11 @@ staple_multi_mat = function(
     message(paste0("There are ", n_levels, " levels present"))
   }
 
-  # not_all_same = matrixStats::colVars(x) > 0
-  not_all_same = rep(TRUE, ncol(x))
+  if (drop_all_same) {
+    not_all_same = matrixStats::colVars(x) > 0
+  } else {
+    not_all_same = rep(TRUE, ncol(x))
+  }
 
   if (verbose) {
     message("Removing elements where all raters agree")

@@ -12,7 +12,8 @@ staple_bin_mat(
   tol = .Machine$double.eps,
   prior = "mean",
   verbose = TRUE,
-  trace = 25
+  trace = 25,
+  drop_all_same = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ staple_bin_mat(
 \item{verbose}{print diagnostic messages}
 
 \item{trace}{Number for modulus to print out verbose iterations}
+
+\item{drop_all_same}{drop all records where they are all the same.
+DO NOT use in practice, only for validation of past results}
 }
 \value{
 List of output sensitivities, specificities, and

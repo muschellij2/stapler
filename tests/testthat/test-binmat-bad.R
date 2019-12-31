@@ -1,5 +1,6 @@
 test_that("Staple binary matrix", {
   suppressWarnings(RNGversion("3.5.0"))
+
   set.seed(20171120)
   n = 5
   r = 1000
@@ -22,34 +23,36 @@ test_that("Staple binary matrix", {
   x = t(pred)
 
   # need test for getRversion() >= numeric_version("3.6.0")
-  testthat::expect_message({res = staple_bin_mat(x)})
+  testthat::expect_message({res = staple_bin_mat(x,
+                                                 drop_all_same = TRUE)})
   testthat::expect_equal(
     res$sensitivity,
-    c(0.781593858553476, 0.895868301462594,
-      0.760514086161722, 0.464483444340873,
-      0.765239314719065))
+    c(0.741808211133125, 0.856147018471266,
+      0.788254106963426, 0.320686380642557,
+      0.716769357165729))
   testthat::expect_equal(
     res$specificity,
-    c(0.902896626562703, 0.770915583628547, 0.994826018925032,
-      0.979916045260754,
-      0.935564390547129))
+    c(0.72057091199614, 0.365912614140717,
+      0.986925344040976, 0.935190213099036,
+      0.801345660831361))
   table(res$label, truth)
   accuracy = mean(res$label == truth)
-  testthat::expect_equal(accuracy, 0.974)
+  testthat::expect_equal(accuracy, 0.981)
 
   testthat::expect_silent({
     res2 = staple_bin_mat(x, prior = rep(0.5, r),
-                          verbose = FALSE)
+                          verbose = FALSE,
+                          drop_all_same = TRUE)
   })
   testthat::expect_equal(res2$sensitivity,
-                         c(0.683572080864211, 0.821556768891859,
-                           0.619166852992802, 0.389409921992467,
-                           0.67042085955546)
+               c(0.650871843714839, 0.723444998919003,
+                 0.603650062308871, 0.256381743290724,
+                 0.631512689774438)
   )
   testthat::expect_equal(res2$specificity,
-                         c(0.919431705156552, 0.795365633127613,
-                           0.99999999994706, 0.986146453778281,
-                           0.95467606186872)
+               c(0.743603219845167, 0.306249452178814,
+                 0.999999999844062, 0.936829464387461,
+                 0.840374092685984)
   )
   table(res2$label, truth)
 
@@ -57,7 +60,7 @@ test_that("Staple binary matrix", {
   # Given only 2 classes - should give same
   #######################################
   testthat::expect_message({
-    multi_res = staple_multi_mat(x)
+    multi_res = staple_multi_mat(x, drop_all_same = TRUE)
   })
   testthat::expect_equal(res$label*1, multi_res$label)
   testthat::expect_equal(res$sensitivity, multi_res$sensitivity[, "1"])

@@ -8,6 +8,8 @@
 #' @param prior Either "mean" or a vector of prior probabilities,
 #' @param verbose print diagnostic messages
 #' @param trace Number for modulus to print out verbose iterations
+#' @param drop_all_same drop all records where they are all the same.
+#' DO NOT use in practice, only for validation of past results
 #'
 #' @return List of output sensitivities, specificities, and
 #' vector of probabilities
@@ -54,7 +56,8 @@ staple_bin_mat = function(
   tol = .Machine$double.eps,
   prior = "mean",
   verbose = TRUE,
-  trace = 25
+  trace = 25,
+  drop_all_same = FALSE
 ) {
   n_readers = nrow(x)
   n_all_voxels = ncol(x)
@@ -83,13 +86,15 @@ staple_bin_mat = function(
   #   exp(colSums(log(x)))
   # }
 
-  # cs = colSums(x)
-  # all_zero = cs == 0
-  # only_one = cs == 1
-  # if all vote yes - then yes
-  # all_one = cs == n_readers
-  # keep = !all_zero & !all_one
-  # stopifnot(!anyNA(keep))
+  if (drop_all_same) {
+    cs = colSums(x)
+    all_zero = cs == 0
+    only_one = cs == 1
+    # if all vote yes - then yes
+    all_one = cs == n_readers
+    keep = !all_zero & !all_one
+    stopifnot(!anyNA(keep))
+  }
 
 
 
@@ -112,12 +117,16 @@ staple_bin_mat = function(
     if (any(prior %in% c(0, 1))) {
       warning("Some elements in prior are in {0, 1}")
     }
-    # all_one = all_one | prior == 1
-    # all_zero = all_zero | prior == 0
-    # keep = !all_zero & !all_one
-    # stopifnot(!any(is.na(keep)))
+    if (drop_all_same) {
+      all_one = all_one | prior == 1
+      all_zero = all_zero | prior == 0
+      keep = !all_zero & !all_one
+      stopifnot(!any(is.na(keep)))
+    }
   }
-  keep = rep(TRUE, n_all_voxels)
+  if (!drop_all_same) {
+    keep = rep(TRUE, n_all_voxels)
+  }
 
   mat = x[, keep]
   f_t_i = f_t_i[keep]
@@ -242,7 +251,9 @@ staple_bin_mat = function(
   stopifnot(!any(is.na(W_i)))
 
   outimg = rep(0, n_all_voxels)
-  # outimg[ all_one ] = 1
+  if (drop_all_same) {
+    outimg[ all_one ] = 1
+  }
   outimg[keep] = W_i
 
   L = list(
