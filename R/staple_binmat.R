@@ -83,6 +83,7 @@ staple_bin_mat = function(
   #   apply(x, 2, prod)
   # }
   # cprod = function(x) {
+  #   stopifnot(all(x > 0))
   #   exp(colSums(log(x)))
   # }
 
