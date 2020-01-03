@@ -8,21 +8,25 @@
 
 <title>Run STAPLE on a set of nifti images — staple_bin_img • stapler</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +34,11 @@
 
 
 
-<meta property="og:title" content="Run STAPLE on a set of nifti images — staple_bin_img" />
 
+<meta property="og:title" content="Run STAPLE on a set of nifti images — staple_bin_img" />
 <meta property="og:description" content="Run STAPLE on a set of nifti images" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +50,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">stapler</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.1</span>
       </span>
     </div>
 
@@ -71,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,11 +100,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/muschellij2/stapler">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,6 +114,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -120,15 +126,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Run STAPLE on a set of nifti images</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>staple_bin_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='fu'>staple_multi_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -150,42 +154,40 @@
       <td><p>Additional arguments to <code><a href='staple_bin_mat.html'>staple_bin_mat</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list similar to <code><a href='staple_bin_mat.html'>staple_bin_mat</a></code>, but
 has a resulting image</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='fl'>1000</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='no'>n</span>), <span class='kw'>function</span>(<span class='no'>i</span>) {
-   <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Binomial'>rbinom</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>r</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>10</span>, <span class='fl'>10</span>))
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>n</span>), <span class='kw'>function</span>(<span class='no'>i</span>) {
+   <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>r</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+   <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>10</span>, <span class='fl'>10</span>))
  })
-<span class='no'>staple_out</span> <span class='kw'>=</span> <span class='fu'>staple_bin_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Reshaping images</span></div><div class='output co'>#&gt; <span class='message'>Running STAPLE for binary matrix</span></div><div class='output co'>#&gt; <span class='message'>iter: 25, diff: 8.55272981192812e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 1.25371566461752e-08</span></div><div class='output co'>#&gt; <span class='message'>iter: 75, diff: 1.81766823814655e-11</span></div><div class='output co'>#&gt; <span class='message'>iter: 100, diff: 2.63122856836162e-14</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='output co'>#&gt; <span class='message'>Creating output probability image/array</span></div><div class='output co'>#&gt; <span class='message'>Creating output prior image/array</span></div><div class='output co'>#&gt; <span class='message'>Creating label image (probability &gt;= 0.5)</span></div><div class='input'>
+<span class='no'>staple_out</span> <span class='kw'>=</span> <span class='fu'>staple_bin_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Reshaping images</span></div><div class='output co'>#&gt; <span class='message'>Running STAPLE for binary matrix</span></div><div class='output co'>#&gt; <span class='message'>iter: 1, diff: 0.339311867477397</span></div><div class='output co'>#&gt; <span class='message'>iter: 10, diff: 0.000181093575703395</span></div><div class='output co'>#&gt; <span class='message'>iter: 20, diff: 5.10335125258887e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 30, diff: 1.45266854656434e-07</span></div><div class='output co'>#&gt; <span class='message'>iter: 40, diff: 4.14713940966038e-09</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 1.18601684029329e-10</span></div><div class='output co'>#&gt; <span class='message'>iter: 60, diff: 3.39628325463082e-12</span></div><div class='output co'>#&gt; <span class='message'>iter: 70, diff: 9.72555369571637e-14</span></div><div class='output co'>#&gt; <span class='message'>iter: 80, diff: 2.77555756156289e-15</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='output co'>#&gt; <span class='message'>Creating output probability image/array</span></div><div class='output co'>#&gt; <span class='message'>Creating output prior image/array</span></div><div class='output co'>#&gt; <span class='message'>Creating label image (probability &gt;= 0.5)</span></div><div class='input'>
 <span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>
 <span class='no'>r</span> <span class='kw'>=</span> <span class='fl'>1000</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='no'>n</span>), <span class='kw'>function</span>(<span class='no'>i</span>) {
-   <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Binomial'>rbinom</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>r</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/array'>array</a></span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>10</span>, <span class='fl'>10</span>))
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='no'>n</span>), <span class='kw'>function</span>(<span class='no'>i</span>) {
+   <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>r</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+   <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='no'>x</span>, <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>10</span>, <span class='fl'>10</span>))
  })
-<span class='no'>staple_out</span> <span class='kw'>=</span> <span class='fu'>staple_multi_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Reshaping images</span></div><div class='output co'>#&gt; <span class='message'>There are 6 levels present</span></div><div class='output co'>#&gt; <span class='message'>Removing elements where all raters agree</span></div><div class='output co'>#&gt; <span class='message'>Making multiple, matrices. Hot-one encode</span></div><div class='output co'>#&gt; <span class='message'>iter: 25, diff: 2.56950975277559e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 2.69583355638758e-10</span></div><div class='output co'>#&gt; <span class='message'>iter: 75, diff: 4.27435864480685e-14</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='output co'>#&gt; <span class='message'>Creating output probability images/arrays</span></div><div class='output co'>#&gt; <span class='message'>Creating output label image/array</span></div></pre>
+<span class='no'>staple_out</span> <span class='kw'>=</span> <span class='fu'>staple_multi_img</span>(<span class='no'>x</span>, <span class='kw'>set_orient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Reshaping images</span></div><div class='output co'>#&gt; <span class='message'>There are 6 levels present</span></div><div class='output co'>#&gt; <span class='message'>Removing elements where all raters agree</span></div><div class='output co'>#&gt; <span class='message'>Making multiple, matrices. Hot-one encode</span></div><div class='output co'>#&gt; <span class='message'>iter: 25, diff: 2.42473825209921e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 2.29266605700218e-10</span></div><div class='output co'>#&gt; <span class='message'>iter: 75, diff: 3.28626015289046e-14</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='output co'>#&gt; <span class='message'>Creating output probability images/arrays</span></div><div class='output co'>#&gt; <span class='message'>Creating output label image/array</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -193,13 +195,16 @@ has a resulting image</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

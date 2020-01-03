@@ -56,7 +56,7 @@ staple_bin_mat = function(
   tol = .Machine$double.eps,
   prior = "mean",
   verbose = TRUE,
-  trace = 25,
+  trace = 10,
   drop_all_same = FALSE
 ) {
   n_readers = nrow(x)
@@ -90,7 +90,7 @@ staple_bin_mat = function(
   if (drop_all_same) {
     cs = colSums(x)
     all_zero = cs == 0
-    only_one = cs == 1
+    # only_one = cs == 1
     # if all vote yes - then yes
     all_one = cs == n_readers
     keep = !all_zero & !all_one
@@ -131,6 +131,8 @@ staple_bin_mat = function(
 
   mat = x[, keep]
   f_t_i = f_t_i[keep]
+
+  rm(x)
 
   # if (any(f_t_i %in% c(0, 1))) {
   #   warning("Some elements in prior are in {0, 1}")
@@ -201,6 +203,8 @@ staple_bin_mat = function(
     }
     W_i = a_i/(a_i + b_i)
 
+    rm(a_i)
+    rm(b_i)
     # M step
     ##########################
     # do these make sense to do?
@@ -242,6 +246,9 @@ staple_bin_mat = function(
     p = new_p
     q = new_q
   }
+
+  rm(mat)
+  rm(dmat)
 
   if (diff > tol) {
     warning(paste0(

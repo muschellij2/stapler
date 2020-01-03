@@ -81,6 +81,7 @@ staple_multi_mat = function(
     x == val
   })
   names(xmats) = umat
+  rm(x)
 
   ####################################
   # Keeping only voxels with more than 1 says yes
@@ -114,6 +115,7 @@ staple_multi_mat = function(
 
   # mats = lapply(xmats, function(r) r[, not_all_same])
   mats = xmats
+  rm(xmats)
   d_f_t_i = 1 - f_t_i
 
 
@@ -216,6 +218,7 @@ staple_multi_mat = function(
       new_q = new_q/(n_voxels - sum_w + eps)
       return(list(new_p = new_p, new_q = new_q))
     }, mats, dmats, W_is, SIMPLIFY = FALSE)
+    rm(W_is)
     new_p = sapply(f, function(x){
       x$new_p
     })
@@ -253,6 +256,8 @@ staple_multi_mat = function(
   colnames(W_i) = umat
   stopifnot(!any(is.na(W_i)))
 
+  rm(mats)
+  rm(dmats)
   outimg = matrix(NA, nrow = n_all_voxels, ncol = n_levels)
   colnames(outimg) = umat
   outimg[not_all_same, ] = W_i

@@ -12,7 +12,7 @@ staple_bin_mat(
   tol = .Machine$double.eps,
   prior = "mean",
   verbose = TRUE,
-  trace = 25,
+  trace = 10,
   drop_all_same = FALSE
 )
 }
