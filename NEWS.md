@@ -1,4 +1,4 @@
-# stapler 0.7.0
+# stapler 0.7.1
 
 * Fixed huge bug in previous version.  Versions prior to 0.7.0 are bad.
 
