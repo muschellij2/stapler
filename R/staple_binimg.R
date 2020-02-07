@@ -24,7 +24,7 @@
 #' testthat::expect_equal(staple_out$sensitivity,
 #' res$sensitivity)
 #'
-#' x = lapply(x, oro.nifti::nifti)
+#' x = lapply(x, RNifti::asNifti, internal = FALSE)
 #' staple_img_out = staple_bin_img(x, set_orient = FALSE)
 #' testthat::expect_equal(staple_out$sensitivity,
 #' staple_img_out$sensitivity)
