@@ -56,6 +56,7 @@ true_sens = colMeans(pred[ truth == 1, ])
 true_spec = colMeans(1-pred[ truth == 0, ])
 x = t(pred)
 staple_out = staple(x)
+print(staple_out$sensitivity)
 testthat::expect_equal(staple_out$sensitivity[,"1"],
 c(0.781593858553476, 0.895868301462594,
 0.760514086161722, 0.464483444340873,
