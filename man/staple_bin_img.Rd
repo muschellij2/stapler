@@ -39,6 +39,10 @@ res = staple(x)
 testthat::expect_equal(staple_out$sensitivity,
 res$sensitivity)
 
+x = lapply(x, oro.nifti::nifti)
+staple_img_out = staple_bin_img(x, set_orient = FALSE)
+testthat::expect_equal(staple_out$sensitivity,
+staple_img_out$sensitivity)
 n = 5
 r = 1000
 x = lapply(seq(n), function(i) {

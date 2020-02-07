@@ -24,6 +24,10 @@
 #' testthat::expect_equal(staple_out$sensitivity,
 #' res$sensitivity)
 #'
+#' x = lapply(x, oro.nifti::nifti)
+#' staple_img_out = staple_bin_img(x, set_orient = FALSE)
+#' testthat::expect_equal(staple_out$sensitivity,
+#' staple_img_out$sensitivity)
 #' @importFrom RNifti readNifti niftiHeader updateNifti orientation
 #' @importFrom RNifti "orientation<-"
 staple_bin_img = function(
