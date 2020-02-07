@@ -20,6 +20,9 @@
 #'    array(x, dim = c(10,10, 10))
 #'  })
 #' staple_out = staple_bin_img(x, set_orient = FALSE)
+#' res = staple(x)
+#' testthat::expect_equal(staple_out$sensitivity,
+#' res$sensitivity)
 #'
 #' @importFrom RNifti readNifti niftiHeader updateNifti orientation
 #' @importFrom RNifti "orientation<-"

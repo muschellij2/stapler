@@ -88,6 +88,7 @@ staple_bin_mat = function(
   # }
 
   if (drop_all_same) {
+    warning("Dropping values where all the same - may be wrong!")
     cs = colSums(x)
     all_zero = cs == 0
     # only_one = cs == 1

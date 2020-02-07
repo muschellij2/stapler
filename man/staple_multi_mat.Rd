@@ -60,5 +60,9 @@ x = matrix(rbinom(5000, size = 5, prob = 0.5), ncol = 1000)
   ties.method = "first"
 
 res = staple_multi_mat(x)
+xx = rbind(colMeans(x >= 2) > 0.5, colMeans(x >= 2) >= 0.5)
+res = staple_multi_mat(xx, prior = rep(0.5, 1000))
+res_bin = staple_bin_mat(xx, prior = rep(0.5, 1000))
+testthat::expect_equal(res$sensitivity[,"1"], res_bin$sensitivity)
 
 }

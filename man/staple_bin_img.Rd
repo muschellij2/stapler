@@ -35,6 +35,9 @@ x = lapply(seq(n), function(i) {
    array(x, dim = c(10,10, 10))
  })
 staple_out = staple_bin_img(x, set_orient = FALSE)
+res = staple(x)
+testthat::expect_equal(staple_out$sensitivity,
+res$sensitivity)
 
 n = 5
 r = 1000

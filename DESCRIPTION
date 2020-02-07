@@ -28,6 +28,5 @@ Maintainer: John Muschelli <muschellij2@gmail.com>
 VignetteBuilder: knitr
 URL: https://github.com/muschellij2/stapler
 BugReports: https://github.com/muschellij2/stapler/issues
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 Language: en-US
-
