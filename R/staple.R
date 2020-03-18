@@ -122,7 +122,7 @@ staple.character = function(
 #' if (is.matrix(res_mat$sensitivity)) {
 #'    res_mat$sensitivity = res_mat$sensitivity[, "1"]
 #' }
-#' testthat::expect_equal(staple_out$sensitivity, res_mat)
+#' testthat::expect_equal(staple_out$sensitivity, res_mat$sensitivity)
 staple.array = function(
   x,
   ...,
