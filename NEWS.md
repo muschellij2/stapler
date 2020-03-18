@@ -1,3 +1,7 @@
+# stapler 0.7.2
+
+* Fixes for new array/matrix combination with `staple.array`.
+
 # stapler 0.7.1
 
 * Fixed huge bug in previous version.  Versions prior to 0.7.0 are bad.

@@ -57,18 +57,24 @@ true_spec = colMeans(1-pred[ truth == 0, ])
 x = t(pred)
 staple_out = staple(x)
 print(staple_out$sensitivity)
-testthat::expect_equal(staple_out$sensitivity[,"1"],
+if (is.matrix(staple_out$sensitivity)) {
+   staple_out$sensitivity = staple_out$sensitivity[, "1"]
+}
+testthat::expect_equal(staple_out$sensitivity,
 c(0.781593858553476, 0.895868301462594,
 0.760514086161722, 0.464483444340873,
 0.765239314719065))
 staple_out_prior = staple(x, prior = rep(0.5, r))
 
-testthat::expect_equal(staple_out_prior$sensitivity[, "1"],
+if (is.matrix(staple_out_prior$sensitivity)) {
+   staple_out_prior$sensitivity = staple_out_prior$sensitivity[, "1"]
+}
+testthat::expect_equal(staple_out_prior$sensitivity,
 c(0.683572080864211, 0.821556768891859,
 0.619166852992802, 0.389409921992467, 0.67042085955546))
 
 res_bin = staple_bin_mat(x, prior = rep(0.5, 1000))
-testthat::expect_equal(staple_out_prior$sensitivity[,"1"],
+testthat::expect_equal(staple_out_prior$sensitivity,
 res_bin$sensitivity)
 n = 5
 r = 1000
@@ -79,5 +85,8 @@ x = lapply(seq(n), function(i) {
 mat = sapply(x, c)
 staple_out = staple_bin_img(x, set_orient = FALSE)
 res_mat = staple(t(mat))
-testthat::expect_equal(staple_out$sensitivity, res_mat$sensitivity[, "1"])
+if (is.matrix(res_mat$sensitivity)) {
+   res_mat$sensitivity = res_mat$sensitivity[, "1"]
+}
+testthat::expect_equal(staple_out$sensitivity, res_mat)
 }

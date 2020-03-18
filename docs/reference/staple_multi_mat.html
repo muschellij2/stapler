@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">stapler</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
       </span>
     </div>
 
@@ -206,8 +206,8 @@ matrix of probabilities</p>
   <span class='no'>trace</span> <span class='kw'>=</span> <span class='fl'>25</span>
   <span class='no'>ties.method</span> <span class='kw'>=</span> <span class='st'>"first"</span>
 
-<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>staple_multi_mat</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; <span class='message'>There are 6 levels present</span></div><div class='output co'>#&gt; <span class='message'>Removing elements where all raters agree</span></div><div class='output co'>#&gt; <span class='message'>Making multiple, matrices. Hot-one encode</span></div><div class='output co'>#&gt; <span class='message'>iter: 25, diff: 5.69431779326446e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 1.11233938726585e-09</span></div><div class='output co'>#&gt; <span class='message'>iter: 75, diff: 2.41306974402278e-13</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='input'>
-</div></pre>
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>staple_multi_mat</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; <span class='message'>There are 6 levels present</span></div><div class='output co'>#&gt; <span class='message'>Removing elements where all raters agree</span></div><div class='output co'>#&gt; <span class='message'>Making multiple, matrices. Hot-one encode</span></div><div class='output co'>#&gt; <span class='message'>iter: 25, diff: 5.69431779326446e-06</span></div><div class='output co'>#&gt; <span class='message'>iter: 50, diff: 1.11233938726585e-09</span></div><div class='output co'>#&gt; <span class='message'>iter: 75, diff: 2.41306974402278e-13</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='input'><span class='no'>xx</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span>(<span class='no'>x</span> <span class='kw'>&gt;=</span> <span class='fl'>2</span>) <span class='kw'>&gt;</span> <span class='fl'>0.5</span>, <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span>(<span class='no'>x</span> <span class='kw'>&gt;=</span> <span class='fl'>2</span>) <span class='kw'>&gt;=</span> <span class='fl'>0.5</span>)
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>staple_multi_mat</span>(<span class='no'>xx</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.5</span>, <span class='fl'>1000</span>))</div><div class='output co'>#&gt; <span class='message'>There are 2 levels present</span></div><div class='output co'>#&gt; <span class='message'>Removing elements where all raters agree</span></div><div class='output co'>#&gt; <span class='message'>Making multiple, matrices. Hot-one encode</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='input'><span class='no'>res_bin</span> <span class='kw'>=</span> <span class='fu'><a href='staple_bin_mat.html'>staple_bin_mat</a></span>(<span class='no'>xx</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.5</span>, <span class='fl'>1000</span>))</div><div class='output co'>#&gt; <span class='message'>iter: 1, diff: 9.99998203143893e-06</span></div><div class='output co'>#&gt; <span class='message'>Convergence!</span></div><div class='input'><span class='kw pkg'>testthat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/testthat/man/equality-expectations.html'>expect_equal</a></span>(<span class='no'>res</span>$<span class='no'>sensitivity</span>[,<span class='st'>"1"</span>], <span class='no'>res_bin</span>$<span class='no'>sensitivity</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -227,7 +227,7 @@ matrix of probabilities</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

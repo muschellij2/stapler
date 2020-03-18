@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">stapler</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
       </span>
     </div>
 
@@ -79,13 +79,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="staple_example_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>STAPLE Example</h1>
                         <h4 class="author">Vignette Author</h4>
             
-            <h4 class="date">2020-01-03</h4>
+            <h4 class="date">2020-03-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/muschellij2/stapler/blob/master/vignettes/staple_example.Rmd"><code>vignettes/staple_example.Rmd</code></a></small>
       <div class="hidden name"><code>staple_example.Rmd</code></div>
@@ -103,52 +103,52 @@
 <h2 class="hasAnchor">
 <a href="#running-staple" class="anchor"></a>Running STAPLE</h2>
 <p>Here we will use STAPLE to fuse the data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stapler)</a>
-<a class="sourceLine" id="cb1-2" title="2">images =<span class="st"> </span><span class="kw"><a href="../reference/staple_example_data.html">staple_example_data</a></span>()</a>
-<a class="sourceLine" id="cb1-3" title="3">res =<span class="st"> </span><span class="kw"><a href="../reference/staple.html">staple</a></span>(<span class="dt">x =</span> images, <span class="dt">set_orient =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; Reshaping images</span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="co">#&gt; All images are niftiImage ojects</span></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform</span></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; codes are both zero, so it cannot be reoriented</span></a>
-<a class="sourceLine" id="cb1-8" title="8"></a>
-<a class="sourceLine" id="cb1-9" title="9"><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform</span></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="co">#&gt; codes are both zero, so it cannot be reoriented</span></a>
-<a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform</span></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="co">#&gt; codes are both zero, so it cannot be reoriented</span></a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="co">#&gt; There are 2 levels present</span></a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="co">#&gt; Removing elements where all raters agree</span></a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="co">#&gt; Making multiple, matrices. Hot-one encode</span></a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="co">#&gt; Convergence!</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="co">#&gt; Creating output probability images/arrays</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="co">#&gt; Creating output label image/array</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(res))</a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="co">#&gt; [1] "sensitivity"           "specificity"           "probability"          </span></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="co">#&gt; [4] "label"                 "prior"                 "number_iterations"    </span></a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="co">#&gt; [7] "convergence_threshold" "convergence_value"     "converged"</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stapler)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>images =<span class="st"> </span><span class="kw"><a href="../reference/staple_example_data.html">staple_example_data</a></span>()</span>
+<span id="cb1-3"><a href="#cb1-3"></a>res =<span class="st"> </span><span class="kw"><a href="../reference/staple.html">staple</a></span>(<span class="dt">x =</span> images, <span class="dt">set_orient =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Reshaping images</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; All images are niftiImage ojects</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform codes</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; are both zero, so it cannot be reoriented</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform codes</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; are both zero, so it cannot be reoriented</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; Warning in `orientation&lt;-`(`*tmp*`, value = ori): Image qform and sform codes</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; are both zero, so it cannot be reoriented</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; There are 2 levels present</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt; Removing elements where all raters agree</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; Making multiple, matrices. Hot-one encode</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; Convergence!</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; Creating output probability images/arrays</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; Creating output label image/array</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(res))</span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; [1] "sensitivity"           "specificity"           "probability"          </span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; [4] "label"                 "prior"                 "number_iterations"    </span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; [7] "convergence_threshold" "convergence_value"     "converged"</span></span></code></pre></div>
 <p>We use the <code>set_orient = TRUE</code> argument so that if the images headers are different, then they will be set to the same orientation when run. The <code>staple</code> function will read in the images, reshape the data into a matrix, compute a prior for each element (voxel, in this case), run STAPLE. The output probability image, labeled image (if probability <span class="math inline">\(\geq 0.5\)</span>), and prior image are given in the output <code>res</code>.</p>
 </div>
 <div id="multi-class-staple" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multi-class-staple" class="anchor"></a>Multi-class STAPLE</h2>
 <p>STAPLE works with multi-class data as well. The data do not need to be binary, but they need to be consistently labeled for each image/segmentation. Here we will</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dv">5000</span>, <span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>), <span class="dt">ncol =</span> <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(x)</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; x</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;    0    1    2    3    4    5 </span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;  161  809 1552 1541  795  142</span></a>
-<a class="sourceLine" id="cb2-6" title="6">res_mult =<span class="st"> </span><span class="kw"><a href="../reference/staple_multi_mat.html">staple_multi_mat</a></span>(x)</a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; There are 6 levels present</span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; Removing elements where all raters agree</span></a>
-<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; Making multiple, matrices. Hot-one encode</span></a>
-<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; iter: 25, diff: 8.73541137813572e-07</span></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; iter: 50, diff: 3.65486529929626e-11</span></a>
-<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt; iter: 75, diff: 1.55431223447522e-15</span></a>
-<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt; Convergence!</span></a>
-<a class="sourceLine" id="cb2-14" title="14"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(res_mult<span class="op">$</span>probability)</a>
-<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; [1] 6</span></a>
-<a class="sourceLine" id="cb2-16" title="16"><span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(res_mult<span class="op">$</span>probability)</a>
-<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; [1] "0" "1" "2" "3" "4" "5"</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span>(<span class="dv">5000</span>, <span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>), <span class="dt">ncol =</span> <span class="dv">1000</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(x)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; x</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;    0    1    2    3    4    5 </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  153  817 1516 1561  799  154</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>res_mult =<span class="st"> </span><span class="kw"><a href="../reference/staple_multi_mat.html">staple_multi_mat</a></span>(x)</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; There are 6 levels present</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; Removing elements where all raters agree</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; Making multiple, matrices. Hot-one encode</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; iter: 25, diff: 7.12163447880165e-07</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; iter: 50, diff: 2.51076659463223e-11</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; iter: 75, diff: 1.38777878078145e-15</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; Convergence!</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(res_mult<span class="op">$</span>probability)</span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(res_mult<span class="op">$</span>probability)</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; [1] "0" "1" "2" "3" "4" "5"</span></span></code></pre></div>
 </div>
   </div>
 
@@ -174,7 +174,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>
