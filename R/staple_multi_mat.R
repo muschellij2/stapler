@@ -74,7 +74,7 @@ staple_multi_mat = function(
     not_all_same = rep(TRUE, ncol(x))
   }
 
-  if (verbose) {
+  if (verbose && drop_all_same) {
     message("Removing elements where all raters agree")
   }
   xsame = x[, !not_all_same]
