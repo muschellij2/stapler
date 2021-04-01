@@ -66,6 +66,38 @@ staple_multi_mat = function(
   if (verbose) {
     message(paste0("There are ", n_levels, " levels present"))
   }
+  if (n_levels == 2) {
+    x = x == umat[[2]]
+    out =  staple_bin_mat(
+      x,
+      sens_init = sens_init,
+      spec_init = spec_init,
+      max_iter = max_iter,
+      tol = tol,
+      prior = prior,
+      verbose = verbose,
+      trace = trace,
+      drop_all_same = drop_all_same
+    )
+    sens = out$sensitivity
+    out$sensitivity = NA
+    spec = out$specificity
+    out$specificity = NA
+    # these switches are intentional
+    out$specificity = cbind(sens, spec)
+    colnames(out$specificity) = umat
+    out$sensitivity = cbind(spec, sens)
+    colnames(out$sensitivity) = umat
+    rm(sens, spec)
+    out$prior = cbind(1-out$prior, out$prior)
+    colnames(out$prior) = umat
+    out$probability = cbind(1-out$probability, out$probability)
+    colnames(out$probability) = umat
+
+    out$label = umat[as.integer(out$label) + 1]
+
+    return(out)
+  }
 
   if (drop_all_same) {
     warning("Dropping values where all the same - may be wrong!")

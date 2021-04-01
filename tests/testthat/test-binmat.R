@@ -1,4 +1,4 @@
-test_that("Staple binary matrix", {
+testthat::test_that("Staple binary matrix", {
   suppressWarnings(RNGversion("3.5.0"))
   set.seed(20171120)
   n = 5
@@ -59,7 +59,7 @@ test_that("Staple binary matrix", {
   testthat::expect_message({
     multi_res = staple_multi_mat(x)
   })
-  testthat::expect_equal(res$label*1, multi_res$label)
+  testthat::expect_equal(res$label*1, multi_res$label*1)
   testthat::expect_equal(res$sensitivity, multi_res$sensitivity[, "1"])
   testthat::expect_equal(res$specificity, multi_res$specificity[, "1"])
 

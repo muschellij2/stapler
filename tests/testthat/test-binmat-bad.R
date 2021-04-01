@@ -62,7 +62,7 @@ testthat::test_that("Staple binary matrix", {
   testthat::expect_message({
     multi_res = staple_multi_mat(x, drop_all_same = TRUE)
   })
-  testthat::expect_equal(res$label*1, multi_res$label)
+  testthat::expect_equal(res$label*1, multi_res$label*1)
   testthat::expect_equal(res$sensitivity, multi_res$sensitivity[, "1"])
   testthat::expect_equal(res$specificity, multi_res$specificity[, "1"])
 
