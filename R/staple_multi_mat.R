@@ -8,7 +8,7 @@
 #' @param prior Either "mean" or a matrix of prior probabilities,
 #' @param verbose print diagnostic messages
 #' @param trace Number for modulus to print out verbose iterations
-#' @param ties.method Method passed to \code{\link{max.col}}
+#' @param ties.method Method passed to \code{\link[base]{max.col}}
 #' for hard segmentation
 #' @param drop_all_same drop all records where they are all the same.
 #' DO NOT use in practice, only for validation of past results

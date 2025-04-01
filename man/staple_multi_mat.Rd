@@ -34,7 +34,7 @@ staple_multi_mat(
 
 \item{trace}{Number for modulus to print out verbose iterations}
 
-\item{ties.method}{Method passed to \code{\link{max.col}}
+\item{ties.method}{Method passed to \code{\link[base]{max.col}}
 for hard segmentation}
 
 \item{drop_all_same}{drop all records where they are all the same.

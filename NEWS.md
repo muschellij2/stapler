@@ -1,3 +1,7 @@
+# stapler 0.8.0
+
+* Fixing the \link issues with packages and removed LazyData.
+
 # stapler 0.7.2
 
 * Fixes for new array/matrix combination with `staple.array`.

@@ -1,11 +1,10 @@
 
-[![Travis build
-status](https://travis-ci.org/muschellij2/stapler.svg?branch=master)](https://travis-ci.org/muschellij2/stapler)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/muschellij2/stapler?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/stapler)
-[![Coverage
-status](https://coveralls.io/repos/github/muschellij2/stapler/badge.svg?branch=master)](https://coveralls.io/r/muschellij2/stapler?branch=master)
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/muschellij2/stapler/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/muschellij2/stapler/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # stapler Package:
 

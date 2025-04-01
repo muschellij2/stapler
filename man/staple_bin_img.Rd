@@ -27,7 +27,6 @@ has a resulting image
 Run STAPLE on a set of nifti images
 }
 \examples{
-
 n = 5
 r = 1000
 x = lapply(seq(n), function(i) {

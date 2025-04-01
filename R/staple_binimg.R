@@ -11,8 +11,6 @@
 #' @export
 #'
 #' @examples
-#'
-#' @examples
 #' n = 5
 #' r = 1000
 #' x = lapply(seq(n), function(i) {

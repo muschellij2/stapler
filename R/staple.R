@@ -4,7 +4,7 @@
 #' type of input (array/matrix/list of images/filenames of images)
 #'
 #' @param x a nxr matrix where there are n raters and r elements rated,
-#' a list of images, or a character vector.  Note, \code{\link{readNifti}}
+#' a list of images, or a character vector.  Note, \code{\link[RNifti]{readNifti}}
 #' is used for image filenames
 #' @param ... Options for STAPLE, see \code{\link{staple_bin_mat}} and
 #' \code{\link{staple_multi_mat}}

@@ -1,5 +1,5 @@
 Package: stapler
-Version: 0.7.2
+Version: 0.8.0
 Title: Simultaneous Truth and Performance Level Estimation 
 Description: An implementation of Simultaneous Truth and 
     Performance Level Estimation (STAPLE) <doi:10.1109/TMI.2004.828354>.  This
@@ -21,12 +21,11 @@ Suggests:
     testthat,
     spelling
 Encoding: UTF-8
-LazyData: true
 ByteCompile: true
 Type: Package
 Maintainer: John Muschelli <muschellij2@gmail.com>
 VignetteBuilder: knitr
 URL: https://github.com/muschellij2/stapler
 BugReports: https://github.com/muschellij2/stapler/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Language: en-US

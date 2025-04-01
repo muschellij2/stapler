@@ -20,7 +20,7 @@ staple(x, ..., set_orient = FALSE)
 }
 \arguments{
 \item{x}{a nxr matrix where there are n raters and r elements rated,
-a list of images, or a character vector.  Note, \code{\link{readNifti}}
+a list of images, or a character vector.  Note, \code{\link[RNifti]{readNifti}}
 is used for image filenames}
 
 \item{...}{Options for STAPLE, see \code{\link{staple_bin_mat}} and
